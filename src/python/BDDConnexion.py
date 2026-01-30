@@ -14,7 +14,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 login='root'
-mdp=''
+mdp='jQE7de43330Gj1'
 # machine='127.0.0.1'
 machine='localhost'
 
@@ -26,8 +26,8 @@ machine='localhost'
 # Retourne la connexion si pas d'erreur, None sinon
 def connexionBDD():
 	try:
-		cnx = mysql.connector.connect(user=login, password=mdp,
-	                               host=machine)
+		cnx = mysql.connector.connect(user='root', password='jQE7de43330Gj1',
+	                               host='127.0.0.1')
 	except mysql.connector.Error as err:
 		if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
 			print("Something is wrong with your user name or password")
@@ -114,4 +114,4 @@ def CSVToMySQLTable(fileNameCSV, database, tableName, carSepCsv=','):
 
 
 testExecutionConnector()
-# CSVToMySQLTable('pokemonbis.csv', "pokemons", "pokemonbis")
+CSVToMySQLTable("C:/Users/Zatio/Desktop/03_etudes/02_MACIA/10_PGA/Projet_PGA/data/raw/pokemonbis.csv", "pokemons", "pokemonbis")
