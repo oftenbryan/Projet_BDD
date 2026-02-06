@@ -1,3 +1,13 @@
+CREATE DATABASE Recensement;
+USE Recensement;
+
+-- Region = (idRegion SMALLINT, nomRegion VARCHAR(50));
+-- Departement = (idDepartement SMALLINT, numeroDepartement VARCHAR(3), nomDepartement VARCHAR(50), #idRegion);
+-- Ville = (CODEGEO INT, superficieVille DECIMAL(15,2), nomVille VARCHAR(50), #idDepartement);
+-- Recenser = (#CODEGEO, annee SMALLINT, population INT, nbLogements INT, nbNaissances INT, nbDeces INT);
+
+
+
 CREATE TABLE Region(
    idRegion SMALLINT,
    nomRegion VARCHAR(50),
