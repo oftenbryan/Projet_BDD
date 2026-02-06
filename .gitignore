@@ -51,5 +51,5 @@ output/*
 .DS_Store
 Thumbs.db
 
-# Fichiers de configuration BDD avec identifiants
-src/python/BDDConnexion.py
+# Fichiers de configuration avec identifiants
+src/python/mdp.txt
