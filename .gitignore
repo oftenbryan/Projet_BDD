@@ -50,3 +50,6 @@ output/*
 # OS
 .DS_Store
 Thumbs.db
+
+# Fichiers de configuration BDD avec identifiants
+src/python/BDDConnexion.py
