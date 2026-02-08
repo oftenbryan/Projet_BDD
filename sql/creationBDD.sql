@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS Recensement;
-CREATE DATABASE Recensement;
-USE Recensement;
+DROP DATABASE IF EXISTS Population;
+CREATE DATABASE Population;
+USE Population;
 
 -- Region = (idRegion SMALLINT, nomRegion VARCHAR(50));
 -- Departement = (idDepartement SMALLINT, numeroDepartement VARCHAR(3), nomDepartement VARCHAR(50), #idRegion);
