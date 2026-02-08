@@ -16,7 +16,7 @@ def dataFrameToMySQLTable(database, tableName, dataFrame):
     # https://docs.sqlalchemy.org/en/20/core/engines.html
     # Creation de la table pokemonbis correspondant au fichier csv a partir du dataFrame
     # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_sql.html
-    retour = dataFrame.to_sql(tableName, engine, if_exists="replace")
+    retour = dataFrame.to_sql(tableName, engine, if_exists="append")
     print("\n", retour, tableName, " creees\n")
     # liberation de la connection SQLAlchemy
     engine.dispose()
@@ -31,6 +31,7 @@ def regionSQL():
     popDep = pd.read_csv("../../data/raw/populationDepartementsFrance.csv", sep=",")
     dfRegion = pd.DataFrame({'idRegion' : popDep['codeRegion'], 'nomRegion' : popDep['nomRegion']}).drop_duplicates(subset = ["idRegion"]).set_index("idRegion")
     dataFrameToMySQLTable("Population", "Region", dfRegion)
+    return dfRegion
 
 
 def departementSQL():
@@ -38,6 +39,7 @@ def departementSQL():
     dfDepartement = pd.DataFrame({'numeroDepartement' : popDep['codeDepart'], 'nomDepartement' : popDep['nomDepart'], 'idRegion' : popDep['codeRegion']})
     dfDepartement.index.names = ["idDepartement"]
     dataFrameToMySQLTable("Population", "Departement", dfDepartement)
+    return dfDepartement
 
 def codeToDep(df):
     df = str(df)
@@ -48,7 +50,12 @@ def codeToDep(df):
     else:
         return df[:2]
 
-def villeSQL():
+def numToId(df):
+    df = str(df)
+    #finir la fonction pour faire correspondre les codeDep avec les idDep pour un apply
+
+
+def villeSQL(dfDepartement):
     popMeta = pd.read_csv("../../data/raw/populationMetaDataSerieHistorique2020.csv", sep=";")
     popSerie = pd.read_csv("../../data/raw/populationSerieHistorique2020.csv", sep=";")
 
@@ -65,5 +72,5 @@ def villeSQL():
 
 
 regionSQL()
-departementSQL()
-#villeSQL()
+dfDepartement = departementSQL()
+villeSQL(dfDepartement)
