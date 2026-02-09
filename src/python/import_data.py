@@ -40,7 +40,7 @@ def departementSQL():
     #spécificité de la corse
     ligneA = dfDepartement.iloc[28]
     ligneB = dfDepartement.iloc[29]
-    dfDepartement1 = dfDepartement.drop(dfDepartement.index[28,29])
+    dfDepartement1 = dfDepartement.drop([28,29])
     dfDepartement1 = pd.concat([dfDepartement1[:0], pd.DataFrame([ligneA]), dfDepartement1[0:]])
     dfDepartement1 = pd.concat([dfDepartement1[:20], pd.DataFrame([ligneB]), dfDepartement1[20:]]).reset_index(drop=True)
     
@@ -72,27 +72,41 @@ def codeToDep(df):
     else:
         return int(df[:2])
 
-def villeSQL():
+def villeEtArrSQL():
     popMeta = pd.read_csv("../../data/raw/populationMetaDataSerieHistorique2020.csv", sep=";")
     popSerie = pd.read_csv("../../data/raw/populationSerieHistorique2020.csv", sep=";")
 
+    #On enlève les 30 premières lignes nulles
     dfMetaVille = pd.DataFrame({'idVille' : popMeta['COD_MOD'], 'nomVille' : popMeta['LIB_MOD']}).dropna().reset_index()
 
+    #On récupère les arrondissements
+    dfArrMarseille = dfMetaVille.iloc[4408:4424]
+    dfArrMarseille['idVille'] = 4343
+    dfArrLyon = dfMetaVille.iloc[27259:27268]
+    dfArrLyon['idVille'] = 27105
+    dfArrParis = dfMetaVille.iloc[29278:29298]
+    dfArrParis['idVille'] = 29277
+    dfArr = pd.concat([dfArrMarseille, dfArrLyon, dfArrParis])
+    print(dfArr)
+
+    #On construit l'idDepartement pour les villes
     dfTmp = pd.DataFrame({'codeGeo' : popSerie['CODGEO']})
-
     dfTmp['codeGeo'] = dfTmp['codeGeo'].apply(codeToDep)
-    dfTmp['codeGeo'] = dfTmp['codeGeo']
-    print(dfTmp)
 
+    #On construit le dataframe pour la ville
     dfVille = pd.DataFrame({'codeGeo' : popSerie['CODGEO'], 'superficieVille' : popSerie['SUPERF'], 'nomVille' : dfMetaVille['nomVille'], 'idDepartement' : dfTmp['codeGeo']})
     dfVille.index.names = ["idVille"]
-    print(dfVille)
 
+    #On enlève les arrondissements de la liste des villes
+    dfVille = dfVille.drop(dfVille.index[4408:4424])
+    dfVille = dfVille.drop(dfVille.index[27243:27252])
+    dfVille = dfVille.drop(dfVille.index[29253:29273])
+
+    #On envoie le dataframe ville dans le sql
     dataFrameToMySQLTable("Population", "Ville", dfVille)
 
 
-def arrSQL():
-    return 0
+
 
 
 
