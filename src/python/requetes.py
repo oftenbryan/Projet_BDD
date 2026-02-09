@@ -54,7 +54,7 @@ def creer_bdd(cnx):
            idVille INT,
            annee SMALLINT,
            population INT,
-           nbLogements DOUBLE,
+           nbLogement DOUBLE,
            nbNaissances INT,
            nbDeces INT,
            PRIMARY KEY(idVille, annee),
