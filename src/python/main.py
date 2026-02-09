@@ -13,6 +13,7 @@ from requetes import (
     requete_d_paris,
     requete_e_villes,
     requete_e_departements,
+    requete_e_region,
     requete_f,
     requete_g,
     requete_h,
@@ -37,10 +38,7 @@ def main():
     # Creation des vues
     vues(cnx)
 
-    # ============================================================
-    # APPEL DES REQUETES
-    # ============================================================
-
+    # Appel des requetes
     print("=" * 60)
     print("a) Liste des populations en 2020 (ville, departement, region)")
     requete_a(cnx)

@@ -238,6 +238,37 @@ def requete_e_departements(cnx):
             print(row)
 
 
+def requete_e_region(cnx):
+    """e) Top des regions par croissance (1968-2020) - TODO: probleme de resultat."""
+    requete = """
+    WITH popReg2020 AS (
+        SELECT reg.idRegion, reg.nomRegion, SUM(rcs.population) AS popRegion
+        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+                          JOIN departement d ON vs.idDepartement = d.idDepartement
+                          JOIN region reg ON d.idRegion = reg.idRegion
+        WHERE rcs.annee = 2020
+        GROUP BY idRegion, nomRegion
+    ),
+    popReg1968 AS (
+        SELECT reg.idRegion, reg.nomRegion, SUM(rcs.population) AS popRegion
+        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+                          JOIN departement d ON vs.idDepartement = d.idDepartement
+                          JOIN region reg ON d.idRegion = reg.idRegion
+        WHERE rcs.annee = 1968
+        GROUP BY idRegion, nomRegion
+    ),
+    croissanceReg AS (
+        SELECT r20.nomRegion, (r20.popRegion - r68.popRegion) AS croissanceRegion
+        FROM popReg2020 r20 JOIN popReg1968 r68 ON r20.idRegion = r68.idRegion
+        ORDER BY croissanceRegion DESC)
+    SELECT SUM(cr.croissanceRegion) AS croissanceFr FROM croissanceReg cr
+    """
+    resultat = requeteSimple(cnx, requete)
+    if resultat:
+        for row in resultat:
+            print(row)
+
+
 # ============================================================================
 # REQUETES A FAIRE (TODO)
 # ============================================================================
