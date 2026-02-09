@@ -32,7 +32,7 @@ def creer_bdd(cnx):
         "USE Population",
         "DROP TABLE IF EXISTS Region",
         "DROP TABLE IF EXISTS Departement",
-        #"DROP TABLE IF EXISTS Ville",
+        "DROP TABLE IF EXISTS Ville",
         #"DROP TABLE IF EXISTS Recenser",
         #"DROP TABLE IF EXISTS Arrondissement",
         "CREATE TABLE Region(\
@@ -48,15 +48,15 @@ def creer_bdd(cnx):
            PRIMARY KEY(idDepartement),\
            FOREIGN KEY(idRegion) REFERENCES Region(idRegion)\
         )",
-#        "CREATE TABLE Ville(\
-#           idVille INT,\
-#           codeGeo VARCHAR(5),\
-#           superficieVille DECIMAL(15,2),\
-#           nomVille VARCHAR(50),\
-#           idDepartement SMALLINT NOT NULL,\
-#           PRIMARY KEY(codeGeo),\
-#           FOREIGN KEY(idDepartement) REFERENCES Departement(idDepartement)\
-#        )",
+        "CREATE TABLE Ville(\
+           idVille INT,\
+           codeGeo VARCHAR(5),\
+           superficieVille DECIMAL(15,2),\
+           nomVille VARCHAR(50),\
+           idDepartement SMALLINT NOT NULL,\
+           PRIMARY KEY(codeGeo),\
+           FOREIGN KEY(idDepartement) REFERENCES Departement(idDepartement)\
+        )"#,
 #         "CREATE TABLE Arrondissement(\
 #           idArrondissement INT,\
 #           nomArrondissement VARCHAR(50),\

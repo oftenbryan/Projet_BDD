@@ -51,15 +51,26 @@ def departementSQL():
 def codeToDep(df):
     df = str(df)
     if (len(df) == 4):
-        return df[:1]
+        return int(df[0])
     elif df[:2] in ['97']:
-        return df[:3]
+        if df[:3] in ['971']:
+            return 96
+        elif df[:3] in ['972']:
+            return 97
+        elif df[:3] in ['973']:
+            return 98
+        elif df[:3] in ['974']:
+            return 99
+        elif df[:3] in ['976']:
+            return 100
+        else:
+            print(df)
     elif df[:2] in ['2A']:
         return 0
     elif df[:2] in ['2B']:
         return 20
     else:
-        return df[:2]
+        return int(df[:2])
 
 def villeSQL():
     popMeta = pd.read_csv("../../data/raw/populationMetaDataSerieHistorique2020.csv", sep=";")
@@ -70,10 +81,20 @@ def villeSQL():
     dfTmp = pd.DataFrame({'codeGeo' : popSerie['CODGEO']})
 
     dfTmp['codeGeo'] = dfTmp['codeGeo'].apply(codeToDep)
+    dfTmp['codeGeo'] = dfTmp['codeGeo']
+    print(dfTmp)
 
     dfVille = pd.DataFrame({'codeGeo' : popSerie['CODGEO'], 'superficieVille' : popSerie['SUPERF'], 'nomVille' : dfMetaVille['nomVille'], 'idDepartement' : dfTmp['codeGeo']})
     dfVille.index.names = ["idVille"]
+    print(dfVille)
 
     dataFrameToMySQLTable("Population", "Ville", dfVille)
 
 
+def arrSQL():
+    return 0
+
+
+
+def recSQL():
+    return 0
