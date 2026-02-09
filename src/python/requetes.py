@@ -33,7 +33,7 @@ def creer_bdd(cnx):
         "DROP TABLE IF EXISTS Region",
         "DROP TABLE IF EXISTS Departement",
         "DROP TABLE IF EXISTS Ville",
-        #"DROP TABLE IF EXISTS Recenser",
+        "DROP TABLE IF EXISTS Recenser",
         "CREATE TABLE Region(\
            idRegion SMALLINT,\
            nomRegion VARCHAR(50),\
@@ -55,17 +55,17 @@ def creer_bdd(cnx):
            idDepartement SMALLINT NOT NULL,\
            PRIMARY KEY(codeGeo),\
            FOREIGN KEY(idDepartement) REFERENCES Departement(idDepartement)\
-        )"#,
-#        "CREATE TABLE Recenser(\
-#           idVille INT,\
-#           annee SMALLINT,\
-#           population INT,\
-#           nbLogements DOUBLE,\
-#           nbNaissances INT,\
-#           nbDeces INT,\
-#           PRIMARY KEY(idVille, annee),\
-#           FOREIGN KEY(idVille) REFERENCES Ville(idVille)\
-#        )"
+        )",
+        "CREATE TABLE Recenser(\
+           idVille INT,\
+           annee SMALLINT,\
+           population INT,\
+           nbLogements DOUBLE,\
+           nbNaissances INT,\
+           nbDeces INT,\
+           PRIMARY KEY(idVille, annee),\
+           FOREIGN KEY(idVille) REFERENCES Ville(idVille)\
+        )"
     ]
 
     for requete in s:
