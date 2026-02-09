@@ -1,15 +1,8 @@
 import pandas as pd
 from mysql.connector import errorcode
 from sqlalchemy import create_engine
+from connexion import login, mdp, machine
 
-from connexion import login, mdp, machine # pyright: ignore
-
-# Acces au fichier sql
-#sql_db_path = "../../sql/creationBDD.sql"
-
-#def importCSV(fichierCSV, carSepCsv):
-#    dataFrame = pd.read_csv(fichierCSV, sep=carSepCsv)
-#    return dataFrame
 
 def dataFrameToMySQLTable(database, tableName, dataFrame):
     engine = create_engine(f"mysql+mysqlconnector://{login}:{mdp}@{machine}/{database}")
@@ -20,24 +13,24 @@ def dataFrameToMySQLTable(database, tableName, dataFrame):
     print("\n", retour, tableName, " creees\n")
     # liberation de la connection SQLAlchemy
     engine.dispose()
-    
-#def CSVToMySQLTable(fileNameCSV, database, tableName, carSepCsv=","):
-#    dataFrame = importCSV(fileNameCSV, carSepCsv)
-#    dataFrameToMySQLTable(database, tableName, dataFrame)
-
 
 
 def regionSQL():
+    #chargement du csv dans un dataframe
     popDep = pd.read_csv("../../data/raw/populationDepartementsFrance.csv", sep=",")
+
+    #création d'un dataframe qui correspond à mon entité
     dfRegion = pd.DataFrame({
         'idRegion' : popDep['codeRegion'],
         'nomRegion' : popDep['nomRegion']
     }).drop_duplicates(subset = ["idRegion"]).set_index("idRegion")
     
+    #chargement du dataframe dans le sql
     dataFrameToMySQLTable("Population", "Region", dfRegion)
 
 
 def departementSQL():
+    #chargement du csv dans un dataframe
     popDep = pd.read_csv("../../data/raw/populationDepartementsFrance.csv", sep=",")
     dfDepartement = pd.DataFrame({
         'numeroDepartement' : popDep['codeDepart'],
@@ -45,17 +38,22 @@ def departementSQL():
         'idRegion' : popDep['codeRegion']
     })
 
-    #spécificité de la corse
+    #gestion de la spécificité de la corse
     ligneA = dfDepartement.iloc[28]
     ligneB = dfDepartement.iloc[29]
     dfDepartement1 = dfDepartement.drop([28,29])
     dfDepartement1 = pd.concat([dfDepartement1[:0], pd.DataFrame([ligneA]), dfDepartement1[0:]])
     dfDepartement1 = pd.concat([dfDepartement1[:20], pd.DataFrame([ligneB]), dfDepartement1[20:]]).reset_index(drop=True)
     
+    #création de l'id à partir de l'index
     dfDepartement1.index.names = ["idDepartement"]
 
+    #chargement du dataframe dans le sql
     dataFrameToMySQLTable("Population", "Departement", dfDepartement1)
 
+
+#création d'une fonction qui transforme le codeGeo en idDepartement
+#cette fonction sera utilisé avec la fonction apply de pandas dans la fonction villeSQL
 def codeToDep(df):
     df = str(df)
     if (len(df) == 4):
@@ -81,20 +79,21 @@ def codeToDep(df):
         return int(df[:2])
 
 def villeSQL():
+    #chargement du csv dans un dataframe
     popMeta = pd.read_csv("../../data/raw/populationMetaDataSerieHistorique2020.csv", sep=";")
     popSerie = pd.read_csv("../../data/raw/populationSerieHistorique2020.csv", sep=";")
 
-    #On enlève les 30 premières lignes nulles
+    #nettoyage des 30 premières lignes nulles
     dfMetaVille = pd.DataFrame({
         'idVille' : popMeta['COD_MOD'],
         'nomVille' : popMeta['LIB_MOD']
     }).dropna().reset_index()
 
-    #On construit l'idDepartement pour les villes
+    #construction de l'idDepartement pour les villes
     dfTmp = pd.DataFrame({'codeGeo' : popSerie['CODGEO']})
     dfTmp['codeGeo'] = dfTmp['codeGeo'].apply(codeToDep)
 
-    #On construit le dataframe pour la ville
+    #construction le dataframe pour la ville
     dfVille = pd.DataFrame({
         'codeGeo' : popSerie['CODGEO'],
         'superficieVille' : popSerie['SUPERF'],
@@ -103,12 +102,14 @@ def villeSQL():
     })
     dfVille.index.names = ["idVille"]
 
-    #On envoie le dataframe ville dans le sql
+    #chargement du dataframe dans le sql
     dataFrameToMySQLTable("Population", "Ville", dfVille)
 
 def recenserSQL():
+    #chargement du csv dans un dataframe
     popSerie = pd.read_csv("../../data/raw/populationSerieHistorique2020.csv", sep=";")
 
+    #creation des dataframe de recensement par année
     df20 = pd.DataFrame({
         'annee' : 2020,
         'popuplation' : popSerie['P20_POP'],
@@ -179,6 +180,7 @@ def recenserSQL():
     })
     df68.index.names = ["idVille"]
 
+    #chargement des dataframe dans le sql
     dataFrameToMySQLTable("Population", "Recenser", df20)
     dataFrameToMySQLTable("Population", "Recenser", df14)
     dataFrameToMySQLTable("Population", "Recenser", df09)

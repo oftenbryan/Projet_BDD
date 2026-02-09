@@ -12,7 +12,6 @@ with open("mdp.txt", "r") as f:
 host = "127.0.0.1"
 machine = "localhost"
 
-
 # Connextion à MySQL
 def connexionBDD():
     try:
