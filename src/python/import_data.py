@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from connexion import login, mdp, machine
 
 
+
 def dataFrameToMySQLTable(database, tableName, dataFrame):
     engine = create_engine(f"mysql+mysqlconnector://{login}:{mdp}@{machine}/{database}")
     # https://docs.sqlalchemy.org/en/20/core/engines.html
