@@ -112,7 +112,7 @@ def recenserSQL():
     #creation des dataframe de recensement par année
     df20 = pd.DataFrame({
         'annee' : 2020,
-        'popuplation' : popSerie['P20_POP'],
+        'population' : popSerie['P20_POP'],
         'nbLogement' : popSerie['P20_LOG'],
         'nbNaissances' : popSerie['NAIS1420'],
         'nbDeces' : popSerie['DECE1420']
@@ -121,7 +121,7 @@ def recenserSQL():
     
     df14 = pd.DataFrame({
         'annee' : 2014,
-        'popuplation' : popSerie['P14_POP'],
+        'population' : popSerie['P14_POP'],
         'nbLogement' : popSerie['P14_LOG'],
         'nbNaissances' : popSerie['NAIS0914'],
         'nbDeces' : popSerie['DECE0914']
@@ -130,7 +130,7 @@ def recenserSQL():
     
     df09 = pd.DataFrame({
         'annee' : 2009,
-        'popuplation' : popSerie['P09_POP'],
+        'population' : popSerie['P09_POP'],
         'nbLogement' : popSerie['P09_LOG'],
         'nbNaissances' : popSerie['NAIS9909'],
         'nbDeces' : popSerie['DECE9909']
@@ -139,7 +139,7 @@ def recenserSQL():
     
     df99 = pd.DataFrame({
         'annee' : 1999,
-        'popuplation' : popSerie['D99_POP'],
+        'population' : popSerie['D99_POP'],
         'nbLogement' : popSerie['D99_LOG'],
         'nbNaissances' : popSerie['NAIS9099'],
         'nbDeces' : popSerie['DECE9099']
@@ -148,7 +148,7 @@ def recenserSQL():
 
     df90 = pd.DataFrame({
         'annee' : 1990,
-        'popuplation' : popSerie['D90_POP'],
+        'population' : popSerie['D90_POP'],
         'nbLogement' : popSerie['D90_LOG'],
         'nbNaissances' : popSerie['NAIS8290'],
         'nbDeces' : popSerie['DECE8290']
@@ -157,7 +157,7 @@ def recenserSQL():
 
     df82 = pd.DataFrame({
         'annee' : 1982,
-        'popuplation' : popSerie['D82_POP'],
+        'population' : popSerie['D82_POP'],
         'nbLogement' : popSerie['D82_LOG'],
         'nbNaissances' : popSerie['NAIS7582'],
         'nbDeces' : popSerie['DECE7582']
@@ -166,7 +166,7 @@ def recenserSQL():
 
     df75 = pd.DataFrame({
         'annee' : 1975,
-        'popuplation' : popSerie['D75_POP'],
+        'population' : popSerie['D75_POP'],
         'nbLogement' : popSerie['D75_LOG'],
         'nbNaissances' : popSerie['NAIS6875'],
         'nbDeces' : popSerie['DECE6875']
@@ -175,7 +175,7 @@ def recenserSQL():
 
     df68 = pd.DataFrame({
         'annee' : 1968,
-        'popuplation' : popSerie['D68_POP'],
+        'population' : popSerie['D68_POP'],
         'nbLogement' : popSerie['D68_LOG'],
     })
     df68.index.names = ["idVille"]

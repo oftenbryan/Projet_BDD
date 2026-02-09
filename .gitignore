@@ -53,3 +53,4 @@ Thumbs.db
 
 # Fichiers de configuration avec identifiants
 src/python/mdp.txt
+src/.vs/*
