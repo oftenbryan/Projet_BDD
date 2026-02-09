@@ -31,15 +31,22 @@ def regionSQL():
     popDep = pd.read_csv("../../data/raw/populationDepartementsFrance.csv", sep=",")
     dfRegion = pd.DataFrame({'idRegion' : popDep['codeRegion'], 'nomRegion' : popDep['nomRegion']}).drop_duplicates(subset = ["idRegion"]).set_index("idRegion")
     dataFrameToMySQLTable("Population", "Region", dfRegion)
-    return dfRegion
 
 
 def departementSQL():
     popDep = pd.read_csv("../../data/raw/populationDepartementsFrance.csv", sep=",")
     dfDepartement = pd.DataFrame({'numeroDepartement' : popDep['codeDepart'], 'nomDepartement' : popDep['nomDepart'], 'idRegion' : popDep['codeRegion']})
-    dfDepartement.index.names = ["idDepartement"]
-    dataFrameToMySQLTable("Population", "Departement", dfDepartement)
-    return dfDepartement
+
+    #spécificité de la corse
+    ligneA = dfDepartement.iloc[28]
+    ligneB = dfDepartement.iloc[29]
+    dfDepartement1 = dfDepartement.drop(dfDepartement.index[28,29])
+    dfDepartement1 = pd.concat([dfDepartement1[:0], pd.DataFrame([ligneA]), dfDepartement1[0:]])
+    dfDepartement1 = pd.concat([dfDepartement1[:20], pd.DataFrame([ligneB]), dfDepartement1[20:]]).reset_index(drop=True)
+    
+    dfDepartement1.index.names = ["idDepartement"]
+
+    dataFrameToMySQLTable("Population", "Departement", dfDepartement1)
 
 def codeToDep(df):
     df = str(df)
@@ -47,15 +54,14 @@ def codeToDep(df):
         return df[:1]
     elif df[:2] in ['97']:
         return df[:3]
+    elif df[:2] in ['2A']:
+        return 0
+    elif df[:2] in ['2B']:
+        return 20
     else:
         return df[:2]
 
-def numToId(df):
-    df = str(df)
-    #finir la fonction pour faire correspondre les codeDep avec les idDep pour un apply
-
-
-def villeSQL(dfDepartement):
+def villeSQL():
     popMeta = pd.read_csv("../../data/raw/populationMetaDataSerieHistorique2020.csv", sep=";")
     popSerie = pd.read_csv("../../data/raw/populationSerieHistorique2020.csv", sep=";")
 
@@ -71,6 +77,3 @@ def villeSQL(dfDepartement):
     dataFrameToMySQLTable("Population", "Ville", dfVille)
 
 
-regionSQL()
-dfDepartement = departementSQL()
-villeSQL(dfDepartement)
