@@ -57,14 +57,14 @@ def creer_bdd(cnx):
            FOREIGN KEY(idDepartement) REFERENCES Departement(idDepartement)\
         )"#,
 #        "CREATE TABLE Recenser(\
-#           codeGeo INT,\
+#           idVille INT,\
 #           annee SMALLINT,\
 #           population INT,\
 #           nbLogements DOUBLE,\
 #           nbNaissances INT,\
 #           nbDeces INT,\
-#           PRIMARY KEY(codeGeo, annee),\
-#           FOREIGN KEY(codeGeo) REFERENCES Ville(codeGeo)\
+#           PRIMARY KEY(idVille, annee),\
+#           FOREIGN KEY(idVille) REFERENCES Ville(idVille)\
 #        )"
     ]
 

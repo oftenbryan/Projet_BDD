@@ -4,15 +4,13 @@ USE Population;
 
 -- Region = (idRegion SMALLINT, nomRegion VARCHAR(50));
 -- Departement = (idDepartement SMALLINT, numeroDepartement VARCHAR(3), nomDepartement VARCHAR(50), #idRegion);
--- Ville = (codeGeo INT, superficieVille DECIMAL(15,2), nomVille VARCHAR(50), #idDepartement);
--- Arrondissement = (idArrondissement INT, nomArrondissement VARCHAR(50), #idVille);
--- Recenser = (#codeGeo, annee SMALLINT, population INT, nbLogements INT, nbNaissances INT, nbDeces INT);
+-- Ville = (idVille INT, superficieVille DECIMAL(15,2), nomVille VARCHAR(50), #idDepartement);
+-- Recenser = (#idVille, annee SMALLINT, population INT, nbLogements INT, nbNaissances INT, nbDeces INT);
 
 DROP TABLE IF EXISTS Region;
 DROP TABLE IF EXISTS Departement;
 DROP TABLE IF EXISTS Ville;
 DROP TABLE IF EXISTS Recenser;
-DROP TABLE IF EXISTS Arrondissement;
 
 CREATE TABLE Region(
    idRegion SMALLINT,
@@ -37,14 +35,6 @@ CREATE TABLE Ville(
    idDepartement SMALLINT NOT NULL,
    PRIMARY KEY(idVille),
    FOREIGN KEY(idDepartement) REFERENCES Departement(idDepartement)
-);
-
-CREATE TABLE Arrondissement(
-   idArrondissement INT,
-   nomArrondissement VARCHAR(50),
-   idVille INT NOT NULL,
-   PRIMARY KEY(idArrondissement),
-   FOREIGN KEY(idVille) REFERENCES Ville(idVille)
 );
 
 CREATE TABLE Recenser(
