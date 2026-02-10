@@ -18,24 +18,27 @@ from requetes import (
     requete_e_departements,
     requete_e_region,
     requete_f_naissance,
-    requete_f_deces
+    requete_f_deces,
+    requete_g,
+    requete_h,
+    requete_i,
 )
 from graphique import graph_evolution_france, graph_pop_region
 
 
 def main():
     cnx = connexionBDD()
-    #creer_bdd(cnx)
-    #regionSQL()
-    #departementSQL()
-    #villeSQL()
-    #recenserSQL()
+    # creer_bdd(cnx)
+    # regionSQL()
+    # departementSQL()
+    # villeSQL()
+    # recenserSQL()
     usePopulation(cnx)
     vues(cnx)
 
     print("=" * 60)
     print("a) Liste des populations en 2020")
-    afficher_resultat(requeteSimple(cnx, requete_a()),20)
+    afficher_resultat(requeteSimple(cnx, requete_a()), n=20)
 
     print("\n" + "=" * 60)
     print("b) Evolution population (1968-2020)")
@@ -44,7 +47,7 @@ def main():
 
     print("\n" + "=" * 60)
     print("c) Populations 2020 par departement")
-    afficher_resultat(requeteSimple(cnx, requete_c_departement()),20)
+    afficher_resultat(requeteSimple(cnx, requete_c_departement()), n=20)
 
     print("\n" + "=" * 60)
     print("c) Populations 2020 par region")
@@ -67,17 +70,29 @@ def main():
     afficher_resultat(requeteSimple(cnx, requete_e_departements()))
 
     print("\n" + "=" * 60)
-    print("e) Top 10 région par croissance")
+    print("e) Top 10 regions par croissance")
     afficher_resultat(requeteSimple(cnx, requete_e_region()))
 
     print("\n" + "=" * 60)
-    print("f) Top Liste des 10 villes / departements ou on nait le plus.")
-    requete_f_naissance(cnx)
-    
+    print("f) Top 10 villes naissances")
+    afficher_resultat(requeteSimple(cnx, requete_f_naissance()))
+
     print("\n" + "=" * 60)
-    print("f) Top Liste des 10 villes / departements ou on meurt le plus.")
-    requete_f_deces(cnx)
-    
+    print("f) Top 10 villes deces")
+    afficher_resultat(requeteSimple(cnx, requete_f_deces()))
+
+    print("\n" + "=" * 60)
+    print("g) Densite (TODO)")
+    print(requete_g())
+
+    print("\n" + "=" * 60)
+    print("h) Comparaison 2020 (TODO)")
+    print(requete_h())
+
+    print("\n" + "=" * 60)
+    print("i) Comparaison France (TODO)")
+    print(requete_i())
+
     fermerCnx(cnx)
 
 

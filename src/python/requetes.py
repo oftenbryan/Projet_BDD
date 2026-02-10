@@ -246,44 +246,32 @@ def requete_e_region():
     """
 
 
-def requete_f_naissance(cnx):
+def requete_f_naissance():
     """f) Liste des 10 villes / departements ou on nait le plus."""
-
-    requeteN = """
+    return """
     SELECT 
-	vs.nomVille, d.nomDepartement,
+        vs.nomVille, d.nomDepartement,
         SUM(rcs.nbNaissances) as totalNaissances
-<<<<<<< Updated upstream
-    FROM recenser rcs 
+    FROM Recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
         JOIN Departement d ON vs.idDepartement = d.idDepartement
     GROUP BY vs.idVille, vs.nomVille
     ORDER BY totalNaissances DESC LIMIT 10
     """
-    resultat = requeteSimple(cnx, requeteN)
-    if resultat:
-        for row in resultat:
-            print(row)
 
 
-def requete_f_deces(cnx):
+def requete_f_deces():
     """f) Liste des 10 villes / departements ou on meurt le plus."""
-
-    requeteD = """
+    return """
     SELECT 
-	vs.nomVille, d.nomDepartement,
+        vs.nomVille, d.nomDepartement,
         SUM(rcs.nbDeces) as totalDeces
-<<<<<<< Updated upstream
-    FROM recenser rcs 
+    FROM Recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
         JOIN Departement d ON vs.idDepartement = d.idDepartement
     GROUP BY vs.idVille, vs.nomVille
     ORDER BY totalDeces DESC LIMIT 10
     """
-    resultat = requeteSimple(cnx, requeteD)
-    if resultat:
-        for row in resultat:
-            print(row)
 
 
 # ============================================================================
@@ -291,22 +279,19 @@ def requete_f_deces(cnx):
 # ============================================================================
 
 
-def requete_g(cnx):
+def requete_g():
     """g) Liste des 10 villes / departements avec la plus grande/petite densite."""
     # TODO: A implementer
-    print("TODO: requete_g a implementer")
-    pass
+    return "TODO"
 
 
-def requete_h(cnx):
+def requete_h():
     """h) Comparaison pour 2020 des naissances / deces / mouvements de population."""
     # TODO: A implementer
-    print("TODO: requete_h a implementer")
-    pass
+    return "TODO"
 
 
-def requete_i(cnx):
+def requete_i():
     """i) Comparaison par recensement des naissances / deces / mouvements de population de la France."""
     # TODO: A implementer
-    print("TODO: requete_i a implementer")
-    pass
+    return "TODO"
