@@ -26,7 +26,12 @@ from requetes import (
     requete_h,
     requete_i,
 )
-from graphique import graph_evolution_france, graph_pop_region
+from graphique import (
+    graph_evolution_france,
+    graph_pop_region,
+    graph_croissance_ville,
+    graph_naissances_ville
+)
 
 
 def main():
@@ -67,6 +72,7 @@ def main():
     print("\n" + "=" * 60)
     print("e) Top 10 villes par croissance")
     afficher_resultat(requeteSimple(cnx, requete_e_villes()))
+    graph_croissance_ville(cnx)
 
     print("\n" + "=" * 60)
     print("e) Top 10 departements par croissance")
@@ -78,7 +84,12 @@ def main():
 
     print("\n" + "=" * 60)
     print("f) Top 10 villes naissances")
+<<<<<<< Updated upstream
     afficher_resultat(requeteSimple(cnx, requete_f_naissance_villes()))
+=======
+    afficher_resultat(requeteSimple(cnx, requete_f_naissance()))
+    graph_naissances_ville(cnx)
+>>>>>>> Stashed changes
 
     print("\n" + "=" * 60)
     print("f) Top 10 villes deces")
