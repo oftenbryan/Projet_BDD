@@ -80,14 +80,14 @@ def vues(cnx):
         """
         CREATE VIEW villeSeule AS (
             SELECT *
-            FROM ville
+            FROM Ville
             WHERE LOWER(nomVille) NOT LIKE '%arrondissement'
         )
         """,
         """
         CREATE VIEW arrondissement AS (
             SELECT *
-            FROM ville
+            FROM Ville
             WHERE LOWER(nomVille) LIKE '%arrondissement'
         )
         """,
@@ -121,7 +121,7 @@ def requete_b(cnx):
     """b) Evolution de la population francaise de 1968 a 2020."""
     requete = """
     SELECT rcs.annee, SUM(rcs.population) AS populationFrance
-    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
     GROUP BY rcs.annee
     """
     resultat = requeteSimple(cnx, requete)
@@ -134,7 +134,7 @@ def requete_c_departement(cnx):
     """c) Liste des populations en 2020 par departement."""
     requete = """
     SELECT d.idDepartement AS idDep, d.nomDepartement AS nomDep, SUM(rcs.population) AS populationDep
-    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
                       JOIN Departement d ON vs.idDepartement = d.idDepartement
     WHERE rcs.annee = 2020
     GROUP BY idDep, nomDep
@@ -150,7 +150,7 @@ def requete_c_region(cnx):
     """c) Liste des populations en 2020 par region."""
     requete = """
     SELECT reg.idRegion AS idReg, reg.nomRegion AS nomReg, SUM(rcs.population) AS populationReg
-    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
                       JOIN Departement d ON vs.idDepartement = d.idDepartement
                       JOIN Region reg ON d.idRegion = reg.idRegion
     WHERE rcs.annee = 2020
@@ -169,7 +169,7 @@ def requete_d_paris(cnx):
     print("\n--- Paris (ville) ---")
     requete1 = """
     SELECT SUM(rcs.population) AS populationParis
-    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
     WHERE annee = 2020 AND LOWER(vs.nomVille) LIKE 'paris'
     """
     resultat = requeteSimple(cnx, requete1)
@@ -180,7 +180,7 @@ def requete_d_paris(cnx):
     print("\n--- Paris (arrondissements) ---")
     requete2 = """
     SELECT SUM(rcs.population) AS populationParisArr
-    FROM recenser rcs JOIN arrondissement a ON rcs.idVille = a.idVille
+    FROM Recenser rcs JOIN arrondissement a ON rcs.idVille = a.idVille
     WHERE annee = 2020 AND LOWER(a.nomVille) LIKE 'paris%'
     """
     resultat = requeteSimple(cnx, requete2)
@@ -193,12 +193,12 @@ def requete_e_villes(cnx):
     requete = """
     WITH population2020 AS (
         SELECT vs.idVille, vs.nomVille, rcs.population AS popVille
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
         WHERE rcs.annee = 2020
     ),
     population1968 AS (
         SELECT vs.idVille, vs.nomVille, rcs.population AS popVille
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
         WHERE rcs.annee = 1968
     )
     SELECT pop20.nomVille, (pop20.popVille - pop68.popVille) AS croissanceVille
@@ -216,15 +216,15 @@ def requete_e_departements(cnx):
     requete = """
     WITH popDep2020 AS (
         SELECT d.idDepartement AS idDep, d.nomDepartement AS nomDep, SUM(rcs.population) AS popDep
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-                          JOIN departement d ON vs.idDepartement = d.idDepartement
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+                          JOIN Departement d ON vs.idDepartement = d.idDepartement
         WHERE rcs.annee = 2020
         GROUP BY idDep, nomDep
     ),
     popDep1968 AS (
         SELECT d.idDepartement AS idDep, d.nomDepartement AS nomDep, SUM(rcs.population) AS popDep
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-                          JOIN departement d ON vs.idDepartement = d.idDepartement
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+                          JOIN Departement d ON vs.idDepartement = d.idDepartement
         WHERE rcs.annee = 1968
         GROUP BY idDep, nomDep
     )
@@ -243,17 +243,17 @@ def requete_e_region(cnx):
     requete = """
     WITH popReg2020 AS (
         SELECT reg.idRegion, reg.nomRegion, SUM(rcs.population) AS popRegion
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-                          JOIN departement d ON vs.idDepartement = d.idDepartement
-                          JOIN region reg ON d.idRegion = reg.idRegion
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+                          JOIN Departement d ON vs.idDepartement = d.idDepartement
+                          JOIN Region reg ON d.idRegion = reg.idRegion
         WHERE rcs.annee = 2020
         GROUP BY idRegion, nomRegion
     ),
     popReg1968 AS (
         SELECT reg.idRegion, reg.nomRegion, SUM(rcs.population) AS popRegion
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-                          JOIN departement d ON vs.idDepartement = d.idDepartement
-                          JOIN region reg ON d.idRegion = reg.idRegion
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+                          JOIN Departement d ON vs.idDepartement = d.idDepartement
+                          JOIN Region reg ON d.idRegion = reg.idRegion
         WHERE rcs.annee = 1968
         GROUP BY idRegion, nomRegion
     ),
