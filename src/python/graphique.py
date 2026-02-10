@@ -5,7 +5,7 @@ from requetes import (
     requete_b,
     requete_c_region,
     requete_e_villes,
-    requete_f_naissance
+    requete_f_naissance_villes
 )
 
 
@@ -67,7 +67,7 @@ def graph_croissance_ville(cnx):
     print("Graphique top10_croissance_ville.png cree ")
 
 def graph_naissances_ville(cnx):
-    df = pd.read_sql(requete_f_naissance(), cnx)
+    df = pd.read_sql(requete_f_naissance_villes(), cnx)
     plt.figure(figsize=(10, 6))
     plt.bar(
         df["nomVille"],

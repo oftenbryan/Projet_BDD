@@ -84,12 +84,8 @@ def main():
 
     print("\n" + "=" * 60)
     print("f) Top 10 villes naissances")
-<<<<<<< Updated upstream
     afficher_resultat(requeteSimple(cnx, requete_f_naissance_villes()))
-=======
-    afficher_resultat(requeteSimple(cnx, requete_f_naissance()))
     graph_naissances_ville(cnx)
->>>>>>> Stashed changes
 
     print("\n" + "=" * 60)
     print("f) Top 10 villes deces")
