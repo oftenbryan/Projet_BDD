@@ -338,3 +338,28 @@ SELECT
 FROM stats
 ORDER BY annee;
 
+
+-- 3.
+
+WITH popCoubisou AS (
+		SELECT rcs.idVille, rcs.population AS pop
+		FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2020
+		WHERE LOWER(vs.nomVille) = "coubisou"
+	)
+
+SELECT vs.nomVille, (rcs.nbDeces / popCoubisou.pop) ratio
+FROM villeSeule vs JOIN recenser rcs ON vs.idVille = rcs.idVille AND rcs.annee = 2020
+WHERE ratio > 1 
+ORDER BY ratio DESC;
+
+SELECT rcs.population AS popCoubisou
+	FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2020
+	WHERE LOWER(vs.nomVille) = "coubisou";
+
+
+-- 4.
+
+
+
+
+-- 5.
