@@ -16,6 +16,8 @@ from requetes import (
     requete_e_villes,
     requete_e_departements,
     requete_e_region,
+    requete_f_naissance
+    requete_f_deces
 )
 from graphique import graph_evolution_france, graph_pop_region
 
@@ -60,6 +62,14 @@ def main():
     print("e) Top 10 departements croissance")
     requete_e_departements(cnx)
 
+    print("\n" + "=" * 60)
+    print("f) Top Liste des 10 villes / departements ou on nait / meurt le plus.")
+    requete_f_naissance(cnx)
+    
+    print("\n" + "=" * 60)
+    print("f) Top Liste des 10 villes / departements ou on nait / meurt le plus.")
+    requete_f_deces(cnx)
+    
     fermerCnx(cnx)
 
 

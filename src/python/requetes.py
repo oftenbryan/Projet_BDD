@@ -273,17 +273,44 @@ def requete_e_region(cnx):
             print(row)
 
 
+def requete_f_naissance(cnx):
+    """f) Liste des 10 villes / departements ou on nait le plus."""
+    
+    requeteN = """
+    SELECT 
+	vs.nomVille, 
+        SUM(rcs.nbNaissances) as totalNaissances
+    FROM recenser rcs 
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    GROUP BY vs.idVille, vs.nomVille
+    ORDER BY totalNaissances DESC LIMIT 10
+    """
+    resultat = requeteSimple(cnx,requeteN)
+    if resultat:
+        for row in resultat:
+            print(row)
+            
+def requete_f_deces(cnx):
+    """f) Liste des 10 villes / departements ou on meurt le plus."""
+    
+    requeteD = """
+    SELECT 
+	vs.nomVille, 
+        SUM(rcs.nbDeces) as totalDeces
+    FROM recenser rcs 
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    GROUP BY vs.idVille, vs.nomVille
+    ORDER BY totalDeces DESC LIMIT 10
+    """
+    resultat = requeteSimple(cnx,requeteD)
+    if resultat:
+        for row in resultat:
+            print(row)
+
+
 # ============================================================================
 # REQUETES A FAIRE (TODO)
 # ============================================================================
-
-
-def requete_f(cnx):
-    """f) Liste des 10 villes / departements ou on nait / meurt le plus."""
-    # TODO: A implementer
-    print("TODO: requete_f a implementer")
-    pass
-
 
 def requete_g(cnx):
     """g) Liste des 10 villes / departements avec la plus grande/petite densite."""
