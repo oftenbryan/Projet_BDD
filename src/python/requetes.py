@@ -246,8 +246,8 @@ def requete_e_region():
     """
 
 
-def requete_f_naissance():
-    """f) Liste des 10 villes / departements ou on nait le plus."""
+def requete_f_naissance_villes():
+    """f) Liste des 10 villes ou on nait le plus."""
     return """
     SELECT 
         vs.nomVille, d.nomDepartement,
@@ -255,13 +255,13 @@ def requete_f_naissance():
     FROM Recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
         JOIN Departement d ON vs.idDepartement = d.idDepartement
-    GROUP BY vs.idVille, vs.nomVille
+    GROUP BY vs.idVille, vs.nomVille, d.nomDepartement
     ORDER BY totalNaissances DESC LIMIT 10
     """
 
 
-def requete_f_deces():
-    """f) Liste des 10 villes / departements ou on meurt le plus."""
+def requete_f_deces_villes():
+    """f) Liste des 10 villes ou on meurt le plus."""
     return """
     SELECT 
         vs.nomVille, d.nomDepartement,
@@ -269,7 +269,35 @@ def requete_f_deces():
     FROM Recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
         JOIN Departement d ON vs.idDepartement = d.idDepartement
-    GROUP BY vs.idVille, vs.nomVille
+    GROUP BY vs.idVille, vs.nomVille, d.nomDepartement
+    ORDER BY totalDeces DESC LIMIT 10
+    """
+
+
+def requete_f_naissance_departements():
+    """f) Liste des 10 departements ou on nait le plus."""
+    return """
+    SELECT 
+        d.nomDepartement,
+        SUM(rcs.nbNaissances) as totalNaissances
+    FROM Recenser rcs 
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+    GROUP BY d.idDepartement, d.nomDepartement
+    ORDER BY totalNaissances DESC LIMIT 10
+    """
+
+
+def requete_f_deces_departements():
+    """f) Liste des 10 departements ou on meurt le plus."""
+    return """
+    SELECT 
+        d.nomDepartement,
+        SUM(rcs.nbDeces) as totalDeces
+    FROM Recenser rcs 
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+    GROUP BY d.idDepartement, d.nomDepartement
     ORDER BY totalDeces DESC LIMIT 10
     """
 
@@ -279,10 +307,37 @@ def requete_f_deces():
 # ============================================================================
 
 
-def requete_g():
-    """g) Liste des 10 villes / departements avec la plus grande/petite densite."""
-    # TODO: A implementer
-    return "TODO"
+def requete_g_villes():
+    """g) Liste des 10 villes avec la plus grande densite."""
+    return """
+    SELECT
+        vs.nomVille,
+        d.nomDepartement,
+        AVG(rcs.population) / vs.superficieVille AS densitePop
+    FROM Recenser rcs
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+    WHERE vs.superficieVille > 0
+    GROUP BY vs.idVille, vs.nomVille, d.nomDepartement, vs.superficieVille
+    ORDER BY densitePop DESC
+    LIMIT 10
+    """
+
+
+def requete_g_departements():
+    """g) Liste des 10 departements avec la plus grande densite."""
+    return """
+    SELECT
+        d.nomDepartement,
+        SUM(rcs.population) / SUM(vs.superficieVille) AS densitePop
+    FROM Recenser rcs
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+    WHERE vs.superficieVille > 0
+    GROUP BY d.idDepartement, d.nomDepartement
+    ORDER BY densitePop DESC
+    LIMIT 10
+    """
 
 
 def requete_h():

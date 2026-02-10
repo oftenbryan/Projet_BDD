@@ -152,22 +152,46 @@ SELECT SUM(cr.croissanceRegion) croissanceFr FROM croissanceReg cr;
 
 -- f. Liste des 10 villes / départements où on nait / meurt le plus.
 
+-- Villes où on meurt le plus (total sur toute la période)
 SELECT 
-	vs.nomVille, d.nomDepartement,
+	vs.nomVille, 
+    d.nomDepartement,
     SUM(rcs.nbDeces) as totalDeces
-FROM recenser rcs 
+FROM Recenser rcs 
 	JOIN villeSeule vs ON rcs.idVille = vs.idVille
     JOIN Departement d ON vs.idDepartement = d.idDepartement
-GROUP BY vs.idVille, vs.nomVille
+GROUP BY vs.idVille, vs.nomVille, d.nomDepartement
 ORDER BY totalDeces DESC LIMIT 10;
 
+-- Villes où on naît le plus (total sur toute la période)
 SELECT 
-	vs.nomVille, d.nomDepartement,
+	vs.nomVille, 
+    d.nomDepartement,
     SUM(rcs.nbNaissances) as totalNaissances
-FROM recenser rcs 
+FROM Recenser rcs 
 	JOIN villeSeule vs ON rcs.idVille = vs.idVille
 	JOIN Departement d ON vs.idDepartement = d.idDepartement
-GROUP BY vs.idVille, vs.nomVille
+GROUP BY vs.idVille, vs.nomVille, d.nomDepartement
+ORDER BY totalNaissances DESC LIMIT 10;
+
+-- Départements où on meurt le plus
+SELECT 
+    d.nomDepartement,
+    SUM(rcs.nbDeces) as totalDeces
+FROM Recenser rcs 
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    JOIN Departement d ON vs.idDepartement = d.idDepartement
+GROUP BY d.idDepartement, d.nomDepartement
+ORDER BY totalDeces DESC LIMIT 10;
+
+-- Départements où on naît le plus
+SELECT 
+    d.nomDepartement,
+    SUM(rcs.nbNaissances) as totalNaissances
+FROM Recenser rcs 
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    JOIN Departement d ON vs.idDepartement = d.idDepartement
+GROUP BY d.idDepartement, d.nomDepartement
 ORDER BY totalNaissances DESC LIMIT 10;
 
 -- g. Liste des 10 villes / départements avec la plus grande/petite densité.

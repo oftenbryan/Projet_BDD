@@ -17,9 +17,12 @@ from requetes import (
     requete_e_villes,
     requete_e_departements,
     requete_e_region,
-    requete_f_naissance,
-    requete_f_deces,
-    requete_g,
+    requete_f_naissance_villes,
+    requete_f_deces_villes,
+    requete_f_naissance_departements,
+    requete_f_deces_departements,
+    requete_g_villes,
+    requete_g_departements,
     requete_h,
     requete_i,
 )
@@ -75,15 +78,27 @@ def main():
 
     print("\n" + "=" * 60)
     print("f) Top 10 villes naissances")
-    afficher_resultat(requeteSimple(cnx, requete_f_naissance()))
+    afficher_resultat(requeteSimple(cnx, requete_f_naissance_villes()))
 
     print("\n" + "=" * 60)
     print("f) Top 10 villes deces")
-    afficher_resultat(requeteSimple(cnx, requete_f_deces()))
+    afficher_resultat(requeteSimple(cnx, requete_f_deces_villes()))
 
     print("\n" + "=" * 60)
-    print("g) Densite (TODO)")
-    print(requete_g())
+    print("f) Top 10 departements naissances")
+    afficher_resultat(requeteSimple(cnx, requete_f_naissance_departements()))
+
+    print("\n" + "=" * 60)
+    print("f) Top 10 departements deces")
+    afficher_resultat(requeteSimple(cnx, requete_f_deces_departements()))
+
+    print("\n" + "=" * 60)
+    print("g) Top 10 villes densite")
+    afficher_resultat(requeteSimple(cnx, requete_g_villes()))
+
+    print("\n" + "=" * 60)
+    print("g) Top 10 departements densite")
+    afficher_resultat(requeteSimple(cnx, requete_g_departements()))
 
     print("\n" + "=" * 60)
     print("h) Comparaison 2020 (TODO)")
