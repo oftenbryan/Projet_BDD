@@ -144,6 +144,7 @@ def graph_mvt_pop(cnx):
 
     # configuration des axes
     ax.set_ylabel("Naissance/Deces (millions) - Mouvement (milliers)")
+    ax.set_xlabel("Année")
     ax.set_title("Evolution de population (1968-2020)")
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
