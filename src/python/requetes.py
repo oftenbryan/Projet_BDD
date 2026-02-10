@@ -370,7 +370,7 @@ def requete_g_departements_petite():
     """
 
 
-def requete_h():
+def requete_h_departement():
     """h) Comparaison pour 2020 des naissances / deces / mouvements de population par departement."""
     return """
     WITH stats1968Dpt AS (

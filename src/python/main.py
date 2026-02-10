@@ -100,7 +100,11 @@ def main():
 
     print("\n" + "=" * 60)
     print("h) Comparaison 2020 - naissances, deces, mouvements par departement")
-    afficher_resultat(requeteSimple(cnx, requete_h()))
+    afficher_resultat(requeteSimple(cnx, requete_h_departement()))
+
+    print("\n" + "=" * 60)
+    print("h) Comparaison 2020 - naissances, deces, mouvements par region")
+    afficher_resultat(requeteSimple(cnx, requete_h_region()))
     graph_pop_over_avg(cnx)
 
     print("\n" + "=" * 60)
