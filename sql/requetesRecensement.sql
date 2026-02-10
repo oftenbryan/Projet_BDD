@@ -196,7 +196,55 @@ ORDER BY totalNaissances DESC LIMIT 10;
 
 -- g. Liste des 10 villes / départements avec la plus grande/petite densité.
 
+-- Villes avec la plus grande densité
+SELECT
+	vs.nomVille,
+	d.nomDepartement,
+	AVG(rcs.population) / vs.superficieVille AS densitePop
+FROM Recenser rcs
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+	JOIN Departement d ON vs.idDepartement = d.idDepartement
+WHERE vs.superficieVille > 0
+GROUP BY vs.idVille, vs.nomVille, d.nomDepartement, vs.superficieVille
+ORDER BY densitePop DESC
+LIMIT 10;
 
+-- Villes avec la plus petite densité
+SELECT
+	vs.nomVille,
+	d.nomDepartement,
+	AVG(rcs.population) / vs.superficieVille AS densitePop
+FROM Recenser rcs
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+	JOIN Departement d ON vs.idDepartement = d.idDepartement
+WHERE vs.superficieVille > 0
+GROUP BY vs.idVille, vs.nomVille, d.nomDepartement, vs.superficieVille
+ORDER BY densitePop ASC
+LIMIT 10;
+
+-- Départements avec la plus grande densité
+SELECT
+	d.nomDepartement,
+	SUM(rcs.population) / SUM(vs.superficieVille) AS densitePop
+FROM Recenser rcs
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+	JOIN Departement d ON vs.idDepartement = d.idDepartement
+WHERE vs.superficieVille > 0
+GROUP BY d.idDepartement, d.nomDepartement
+ORDER BY densitePop DESC
+LIMIT 10;
+
+-- Départements avec la plus petite densité
+SELECT
+	d.nomDepartement,
+	SUM(rcs.population) / SUM(vs.superficieVille) AS densitePop
+FROM Recenser rcs
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+	JOIN Departement d ON vs.idDepartement = d.idDepartement
+WHERE vs.superficieVille > 0
+GROUP BY d.idDepartement, d.nomDepartement
+ORDER BY densitePop ASC
+LIMIT 10;
 
 -- h. Comparaison pour 2020 des naissances / décès / mouvements de population par
 -- département / région (2 requêtes). (Mouvements =deltapop(1968/2020)-(nais-deces)).

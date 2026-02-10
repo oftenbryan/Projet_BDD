@@ -307,7 +307,7 @@ def requete_f_deces_departements():
 # ============================================================================
 
 
-def requete_g_villes():
+def requete_g_villes_grande():
     """g) Liste des 10 villes avec la plus grande densite."""
     return """
     SELECT
@@ -324,7 +324,24 @@ def requete_g_villes():
     """
 
 
-def requete_g_departements():
+def requete_g_villes_petite():
+    """g) Liste des 10 villes avec la plus petite densite."""
+    return """
+    SELECT
+        vs.nomVille,
+        d.nomDepartement,
+        AVG(rcs.population) / vs.superficieVille AS densitePop
+    FROM Recenser rcs
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+    WHERE vs.superficieVille > 0
+    GROUP BY vs.idVille, vs.nomVille, d.nomDepartement, vs.superficieVille
+    ORDER BY densitePop ASC
+    LIMIT 10
+    """
+
+
+def requete_g_departements_grande():
     """g) Liste des 10 departements avec la plus grande densite."""
     return """
     SELECT
@@ -336,6 +353,22 @@ def requete_g_departements():
     WHERE vs.superficieVille > 0
     GROUP BY d.idDepartement, d.nomDepartement
     ORDER BY densitePop DESC
+    LIMIT 10
+    """
+
+
+def requete_g_departements_petite():
+    """g) Liste des 10 departements avec la plus petite densite."""
+    return """
+    SELECT
+        d.nomDepartement,
+        SUM(rcs.population) / SUM(vs.superficieVille) AS densitePop
+    FROM Recenser rcs
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+    WHERE vs.superficieVille > 0
+    GROUP BY d.idDepartement, d.nomDepartement
+    ORDER BY densitePop ASC
     LIMIT 10
     """
 

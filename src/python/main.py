@@ -21,8 +21,10 @@ from requetes import (
     requete_f_deces_villes,
     requete_f_naissance_departements,
     requete_f_deces_departements,
-    requete_g_villes,
-    requete_g_departements,
+    requete_g_villes_grande,
+    requete_g_villes_petite,
+    requete_g_departements_grande,
+    requete_g_departements_petite,
     requete_h,
     requete_i,
 )
@@ -30,7 +32,7 @@ from graphique import (
     graph_evolution_france,
     graph_pop_region,
     graph_croissance_ville,
-    graph_naissances_ville
+    graph_naissances_ville,
 )
 
 
@@ -100,12 +102,20 @@ def main():
     afficher_resultat(requeteSimple(cnx, requete_f_deces_departements()))
 
     print("\n" + "=" * 60)
-    print("g) Top 10 villes densite")
-    afficher_resultat(requeteSimple(cnx, requete_g_villes()))
+    print("g) Top 10 villes - plus grande densite")
+    afficher_resultat(requeteSimple(cnx, requete_g_villes_grande()))
 
     print("\n" + "=" * 60)
-    print("g) Top 10 departements densite")
-    afficher_resultat(requeteSimple(cnx, requete_g_departements()))
+    print("g) Top 10 villes - plus petite densite")
+    afficher_resultat(requeteSimple(cnx, requete_g_villes_petite()))
+
+    print("\n" + "=" * 60)
+    print("g) Top 10 departements - plus grande densite")
+    afficher_resultat(requeteSimple(cnx, requete_g_departements_grande()))
+
+    print("\n" + "=" * 60)
+    print("g) Top 10 departements - plus petite densite")
+    afficher_resultat(requeteSimple(cnx, requete_g_departements_petite()))
 
     print("\n" + "=" * 60)
     print("h) Comparaison 2020 (TODO)")
