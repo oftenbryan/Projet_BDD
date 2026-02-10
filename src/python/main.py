@@ -14,7 +14,10 @@ from requetes import (
     requete_e_villes,
     requete_e_departements,
     requete_e_region,
-    requeteSimple,
+    requete_f,
+    requete_g,
+    requete_h,
+    requete_i,
 )
 
 
@@ -35,19 +38,14 @@ def main():
     # Creation des vues
     vues(cnx)
 
-    # ============================================================
-    # APPEL DES REQUETES
-    # ============================================================
-
+    # Appel des requetes
     print("=" * 60)
     print("a) Liste des populations en 2020 (ville, departement, region)")
     requete_a(cnx)
 
     print("\n" + "=" * 60)
     print("b) Evolution de la population francaise (1968-2020)")
-    resultat = requeteSimple(cnx, requete_b(cnx))
-    for row in resultat:
-        print(row)
+    requete_b(cnx)
 
     print("\n" + "=" * 60)
     print("c) Populations 2020 par departement")
@@ -70,8 +68,20 @@ def main():
     requete_e_departements(cnx)
 
     print("\n" + "=" * 60)
-    print("e) Regions - Probleme note (~1.5M ecart avec Wiki)")
-    requete_e_region(cnx)
+    print("f) Top 10 villes/departements naissances/deces (TODO)")
+    requete_f(cnx)
+
+    print("\n" + "=" * 60)
+    print("g) Densite de population (TODO)")
+    requete_g(cnx)
+
+    print("\n" + "=" * 60)
+    print("h) Comparaison 2020 naissances/deces/mouvements (TODO)")
+    requete_h(cnx)
+
+    print("\n" + "=" * 60)
+    print("i) Comparaison par recensement France (TODO)")
+    requete_i(cnx)
 
     # Fermeture de la connexion
     fermerCnx(cnx)

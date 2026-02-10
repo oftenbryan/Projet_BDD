@@ -119,12 +119,15 @@ def requete_a(cnx):
 
 def requete_b(cnx):
     """b) Evolution de la population francaise de 1968 a 2020."""
-    return """
+    requete = """
     SELECT rcs.annee, SUM(rcs.population) AS populationFrance
-    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
     GROUP BY rcs.annee
-    ORDER BY rcs.annee
     """
+    resultat = requeteSimple(cnx, requete)
+    if resultat:
+        for row in resultat:
+            print(row)
 
 
 def requete_c_departement(cnx):
