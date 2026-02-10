@@ -94,7 +94,7 @@ def villeSQL():
     dfTmp = pd.DataFrame({'codeGeo' : popSerie['CODGEO']})
     dfTmp['codeGeo'] = dfTmp['codeGeo'].apply(codeToDep)
 
-    #construction le dataframe pour la ville
+    #construction du dataframe pour la ville
     dfVille = pd.DataFrame({
         'codeGeo' : popSerie['CODGEO'],
         'superficieVille' : popSerie['SUPERF'],

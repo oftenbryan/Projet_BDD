@@ -17,16 +17,16 @@ from requetes import (
     requete_e_departements,
     requete_e_region,
 )
-from graphique import graph_evolution_france
+from graphique import graph_evolution_france, graph_pop_region
 
 
 def main():
     cnx = connexionBDD()
-    creer_bdd(cnx)
-    regionSQL()
-    departementSQL()
-    villeSQL()
-    recenserSQL()
+    #creer_bdd(cnx)
+    #regionSQL()
+    #departementSQL()
+    #villeSQL()
+    #recenserSQL()
     usePopulation(cnx)
     vues(cnx)
 
@@ -45,7 +45,8 @@ def main():
 
     print("\n" + "=" * 60)
     print("c) Populations 2020 par region")
-    requete_c_region(cnx)
+    afficher_resultat(requeteSimple(cnx, requete_c_region()))
+    graph_pop_region(cnx)
 
     print("\n" + "=" * 60)
     print("d) Population de Paris")

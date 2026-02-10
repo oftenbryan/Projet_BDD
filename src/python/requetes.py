@@ -154,9 +154,9 @@ def requete_c_departement(cnx):
             print(row)
 
 
-def requete_c_region(cnx):
+def requete_c_region(cnx=None):
     """c) Liste des populations en 2020 par region."""
-    requete = """
+    return """
     SELECT reg.idRegion AS idReg, reg.nomRegion AS nomReg, SUM(rcs.population) AS populationReg
     FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
                       JOIN Departement d ON vs.idDepartement = d.idDepartement
@@ -165,10 +165,6 @@ def requete_c_region(cnx):
     GROUP BY idReg, nomReg
     ORDER BY populationReg DESC
     """
-    resultat = requeteSimple(cnx, requete)
-    if resultat:
-        for row in resultat:
-            print(row)
 
 
 def requete_d_paris(cnx):
