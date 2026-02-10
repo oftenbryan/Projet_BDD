@@ -106,9 +106,9 @@ def main():
     print("\n" + "=" * 60)
     print("i) Comparaison France par recensement")
     afficher_resultat(requeteSimple(cnx, requete_i()))
-    graph_mvt_pop(cnx)
+    #graph_mvt_pop(cnx)
 
-    #requetes de la question 2) avec d'éventuels création de graphique
+    #requetes de la question 2) avec d'éventuelles créations de graphiques
     print("\n" + "=" * 60)
     print("1) Donner le nombre de villes en Normandie")
     afficher_resultat(requeteSimple(cnx, requete_1()))
