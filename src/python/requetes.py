@@ -132,7 +132,7 @@ def requete_b(cnx=None):
     """b) Evolution de la population francaise de 1968 a 2020."""
     return """
     SELECT rcs.annee, SUM(rcs.population) AS populationFrance
-    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
     GROUP BY rcs.annee
     ORDER BY rcs.annee
     """
