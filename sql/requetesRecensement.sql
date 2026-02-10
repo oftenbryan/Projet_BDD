@@ -39,7 +39,7 @@ ORDER BY population DESC;
 -- b. Évolution de la population française de 1968 à 2020.
 
 SELECT rcs.annee, SUM(rcs.population) populationFrance
-FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
 GROUP BY rcs.annee;
 
 
@@ -48,7 +48,7 @@ GROUP BY rcs.annee;
 -- Par département :
 
 SELECT d.idDepartement idDep, d.nomDepartement nomDep, SUM(rcs.population) populationDep
-FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
 				  JOIN Departement d ON vs.idDepartement = d.idDepartement
 WHERE rcs.annee = 2020
 GROUP BY idDep, nomDep
@@ -58,7 +58,7 @@ ORDER BY populationDep DESC;
 -- Par région :
 
 SELECT reg.idRegion idReg, reg.nomRegion nomReg, SUM(rcs.population) populationReg
-FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
 				  JOIN Departement d ON vs.idDepartement = d.idDepartement
 				  JOIN Region reg ON d.idRegion = reg.idRegion
 WHERE rcs.annee = 2020
@@ -69,11 +69,11 @@ ORDER BY populationReg DESC;
 -- d. Population de Paris au total et par arrondissement. Quel est le problème ? Corriger et vérifier que ce cas n’est pas produit ailleurs. Revoir la question 2.
 
 SELECT rcs.population populationParis
-FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
 WHERE annee = 2020 AND LOWER(vs.nomVille) LIKE "paris";
 
 SELECT SUM(rcs.population) populationParis
-FROM recenser rcs JOIN arrondissement a ON rcs.idVille = a.idVille
+FROM Recenser rcs JOIN arrondissement a ON rcs.idVille = a.idVille
 WHERE annee = 2020 AND LOWER(a.nomVille) LIKE "paris%";
 
 
@@ -84,12 +84,12 @@ WHERE annee = 2020 AND LOWER(a.nomVille) LIKE "paris%";
 -- TODO : WITH en amont pour pas recalculer le SELECT deux fois identiques pour deux WHERE différents ensuite
 WITH population2020 AS (
 		SELECT vs.idVille idVille, vs.nomVille nomVille, rcs.population popVille
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
         WHERE rcs.annee = 2020
         ),
 	population1968 AS (
 		SELECT vs.idVille idVille, vs.nomVille nomVille, rcs.population popVille
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
         WHERE rcs.annee = 1968
         )
 
@@ -103,15 +103,15 @@ ORDER BY croissanceVille DESC LIMIT 10;
 -- TODO : same as above
 WITH popDep2020 AS (
 		SELECT d.idDepartement idDep, d.nomDepartement nomDep, SUM(rcs.population) popDep
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-						  JOIN departement d ON vs.idDepartement = d.idDepartement
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+						  JOIN Departement d ON vs.idDepartement = d.idDepartement
         WHERE rcs.annee = 2020
         GROUP BY idDep, nomDep
         ),
 	popDep1968 AS (
 		SELECT d.idDepartement idDep, d.nomDepartement nomDep, SUM(rcs.population) popDep
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-						  JOIN departement d ON vs.idDepartement = d.idDepartement
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+						  JOIN Departement d ON vs.idDepartement = d.idDepartement
         WHERE rcs.annee = 1968
         GROUP BY idDep, nomDep
         )
@@ -126,17 +126,17 @@ ORDER BY croissanceDep DESC LIMIT 10;
 -- TODO : same as above
 WITH popReg2020 AS (
 		SELECT reg.idRegion idRegion, reg.nomRegion nomRegion, SUM(rcs.population) popRegion
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-						  JOIN departement d ON vs.idDepartement = d.idDepartement
-                          JOIN region reg ON d.idRegion = reg.idRegion
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+						  JOIN Departement d ON vs.idDepartement = d.idDepartement
+                          JOIN Region reg ON d.idRegion = reg.idRegion
         WHERE rcs.annee = 2020
         GROUP BY idRegion, nomRegion
         ),
 	popReg1968 AS (
 		SELECT reg.idRegion idRegion, reg.nomRegion nomRegion, SUM(rcs.population) popRegion
-        FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
-						  JOIN departement d ON vs.idDepartement = d.idDepartement
-                          JOIN region reg ON d.idRegion = reg.idRegion
+        FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+						  JOIN Departement d ON vs.idDepartement = d.idDepartement
+                          JOIN Region reg ON d.idRegion = reg.idRegion
         WHERE rcs.annee = 1968
         GROUP BY idRegion, nomRegion
         ),
