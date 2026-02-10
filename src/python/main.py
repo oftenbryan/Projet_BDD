@@ -33,7 +33,7 @@ from graphique import (
     graph_pop_region,
     graph_croissance_ville,
     graph_naissances_ville,
-    graph_densite_ville
+    graph_densite_ville,
 )
 
 
@@ -130,12 +130,12 @@ def main():
     afficher_resultat(requeteSimple(cnx, requete_g_departements_petite()))
 
     print("\n" + "=" * 60)
-    print("h) Comparaison 2020 (TODO)")
-    print(requete_h())
+    print("h) Comparaison 2020 - naissances, deces, mouvements par departement")
+    afficher_resultat(requeteSimple(cnx, requete_h()))
 
     print("\n" + "=" * 60)
-    print("i) Comparaison France (TODO)")
-    print(requete_i())
+    print("i) Comparaison France par recensement")
+    afficher_resultat(requeteSimple(cnx, requete_i()))
 
 
     #fin de la connexion à la base de donnée

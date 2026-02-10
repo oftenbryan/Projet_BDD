@@ -304,11 +304,6 @@ def requete_f_deces_departements():
     """
 
 
-# ============================================================================
-# REQUETES A FAIRE (TODO)
-# ============================================================================
-
-
 def requete_g_villes_grande():
     """g) Liste des 10 villes avec la plus grande densite."""
     return """
@@ -375,13 +370,57 @@ def requete_g_departements_petite():
     """
 
 
+# ============================================================================
+# REQUETES A FAIRE (TODO)
+# ============================================================================
+
+
 def requete_h():
-    """h) Comparaison pour 2020 des naissances / deces / mouvements de population."""
-    # TODO: A implementer
-    return "TODO"
+    """h) Comparaison pour 2020 des naissances / deces / mouvements de population par departement."""
+    return """
+    WITH stats1968 AS (
+        SELECT d.idDepartement, d.nomDepartement,
+               SUM(rcs.population) AS pop1968,
+               SUM(rcs.nbNaissances) AS nais1968,
+               SUM(rcs.nbDeces) AS deces1968
+        FROM Recenser rcs
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+        WHERE rcs.annee = 1968
+        GROUP BY d.idDepartement, d.nomDepartement
+    ),
+    stats2020 AS (
+        SELECT d.idDepartement, d.nomDepartement,
+               SUM(rcs.population) AS pop2020,
+               SUM(rcs.nbNaissances) AS nais2020,
+               SUM(rcs.nbDeces) AS deces2020
+        FROM Recenser rcs
+        JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+        WHERE rcs.annee = 2020
+        GROUP BY d.idDepartement, d.nomDepartement
+    )
+    SELECT 
+        s20.nomDepartement,
+        s20.nais2020 AS naissances,
+        s20.deces2020 AS deces,
+        (s20.pop2020 - s68.pop1968) AS deltaPop,
+        (s20.pop2020 - s68.pop1968) - (s20.nais2020 - s20.deces2020) AS mouvements
+    FROM stats2020 s20
+    JOIN stats1968 s68 ON s20.idDepartement = s68.idDepartement
+    """
 
 
 def requete_i():
     """i) Comparaison par recensement des naissances / deces / mouvements de population de la France."""
-    # TODO: A implementer
-    return "TODO"
+    return """
+    SELECT 
+        rcs.annee,
+        SUM(rcs.nbNaissances) AS totalNaissances,
+        SUM(rcs.nbDeces) AS totalDeces,
+        SUM(rcs.population) AS totalPopulation
+    FROM Recenser rcs
+    JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    GROUP BY rcs.annee
+    ORDER BY rcs.annee
+    """
