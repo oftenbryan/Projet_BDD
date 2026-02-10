@@ -501,11 +501,11 @@ def requete_3():
     return """
     WITH deces AS (
 		    SELECT vs.idVille, vs.nomVille, rcs.nbDeces
-		    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2020
+		    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2020
 	    ),
         pop2014 AS (
 		    SELECT vs.idVille, vs.nomVille, rcs.population population
-            FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2014
+            FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2014
 	    )
 
     SELECT (d.nbDeces / p14.population) ratioDeces, d.nomVille
