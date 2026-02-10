@@ -33,6 +33,7 @@ from graphique import (
     graph_pop_region,
     graph_croissance_ville,
     graph_naissances_ville,
+    graph_densite_ville
 )
 
 
@@ -104,6 +105,7 @@ def main():
     print("\n" + "=" * 60)
     print("g) Top 10 villes - plus grande densite")
     afficher_resultat(requeteSimple(cnx, requete_g_villes_grande()))
+    graph_densite_ville(cnx)
 
     print("\n" + "=" * 60)
     print("g) Top 10 villes - plus petite densite")

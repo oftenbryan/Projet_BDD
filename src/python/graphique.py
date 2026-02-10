@@ -5,7 +5,8 @@ from requetes import (
     requete_b,
     requete_c_region,
     requete_e_villes,
-    requete_f_naissance_villes
+    requete_f_naissance_villes,
+    requete_g_villes_grande
 )
 
 
@@ -83,6 +84,24 @@ def graph_naissances_ville(cnx):
     plt.savefig("../../graphiques/top10_naissance_ville.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("Graphique top10_naissance_ville.png cree ")
+
+def graph_densite_ville(cnx):
+    df = pd.read_sql(requete_g_villes_grande(), cnx)
+    plt.figure(figsize=(10, 6))
+    plt.bar(
+        df["nomVille"],
+        df["densitePop"],
+        color="skyblue",
+    )
+    plt.title("Top 10 des villes avec la plus grande densité", fontsize=14)
+    plt.xlabel("Villes")
+    plt.xticks(rotation=45, ha='right')
+    plt.ylabel("Densité")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig("../../graphiques/top10_densite_ville.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print("Graphique top10_densite_ville.png cree ")
 
 
 if __name__ == "__main__":
