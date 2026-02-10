@@ -13,7 +13,7 @@ def requeteSimple(cnx, requete):
 
 
 def afficher_resultat(resultat, n=None):
-    """Affiche les resultats d'une requete"""
+    #Affiche les resultats d'une requete
     if resultat:
         if n:
             for row in resultat[:n]:
@@ -73,6 +73,8 @@ def creer_bdd(cnx):
         )
         """,
     ]
+
+    #on effectue les requetes une par une
     for req in requetes:
         requeteSimple(cnx, req)
 

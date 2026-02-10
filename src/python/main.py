@@ -38,15 +38,25 @@ from graphique import (
 
 
 def main():
+
+    #création du connecteur
     cnx = connexionBDD()
-    # creer_bdd(cnx)
-    # regionSQL()
-    # departementSQL()
-    # villeSQL()
-    # recenserSQL()
+
+    #test pour éviter de recréer la base de donée à chaque exéctution du main
+    firstCo = input("Voulez vous (re)créer la base de donée à partir des csv ? (y/n)")
+    if (firstCo == 'y'):
+        creer_bdd(cnx)
+        regionSQL()
+        departementSQL()
+        villeSQL()
+        recenserSQL()
+
+    #preparation du sql
     usePopulation(cnx)
     vues(cnx)
 
+
+    #requetes de la question 1) avec d'éventuels création de graphique
     print("=" * 60)
     print("a) Liste des populations en 2020")
     afficher_resultat(requeteSimple(cnx, requete_a()), n=20)
@@ -127,6 +137,8 @@ def main():
     print("i) Comparaison France (TODO)")
     print(requete_i())
 
+
+    #fin de la connexion à la base de donnée
     fermerCnx(cnx)
 
 

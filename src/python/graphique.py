@@ -12,8 +12,10 @@ from requetes import (
 
 
 def graph_evolution_france(cnx):
-    """Line chart - Evolution de la population francaise 1968-2020"""
+    #chargement du résultat de la requete dans un dataframe
     df = pd.read_sql(requete_b(), cnx)
+
+    #creation du graphique
     plt.figure(figsize=(10, 6))
     plt.plot(
         df["annee"],
@@ -32,7 +34,10 @@ def graph_evolution_france(cnx):
     print("Graphique evolution_france.png cree ")
 
 def graph_pop_region(cnx):
+    #chargement du résultat de la requete dans un dataframe
     df = pd.read_sql(requete_c_region(), cnx)
+
+    #creation du graphique
     plt.figure(figsize=(10, 6))
     plt.bar(
         df["nomReg"],
@@ -45,12 +50,17 @@ def graph_pop_region(cnx):
     plt.ylabel("Population (millions)")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
+
+    #sauvegarde du graphique dans le dossier graphiques
     plt.savefig("../../graphiques/pop_region.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("Graphique pop_region.png cree ")
 
 def graph_croissance_ville(cnx):
+    #chargement du résultat de la requete dans un dataframe
     df = pd.read_sql(requete_e_villes(), cnx)
+
+    #creation du graphique
     plt.figure(figsize=(10, 6))
     plt.bar(
         df["nomVille"],
@@ -63,12 +73,17 @@ def graph_croissance_ville(cnx):
     plt.ylabel("Augmentation de population")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
+
+    #sauvegarde du graphique dans le dossier graphiques
     plt.savefig("../../graphiques/top10_croissance_ville.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("Graphique top10_croissance_ville.png cree ")
 
 def graph_naissances_ville(cnx):
+    #chargement du résultat de la requete dans un dataframe
     df = pd.read_sql(requete_f_naissance_villes(), cnx)
+
+    #creation du graphique
     plt.figure(figsize=(10, 6))
     plt.bar(
         df["nomVille"],
@@ -81,12 +96,17 @@ def graph_naissances_ville(cnx):
     plt.ylabel("Nombre de naissance (milliers)")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
+
+    #sauvegarde du graphique dans le dossier graphiques
     plt.savefig("../../graphiques/top10_naissance_ville.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("Graphique top10_naissance_ville.png cree ")
 
 def graph_densite_ville(cnx):
+    #chargement du résultat de la requete dans un dataframe
     df = pd.read_sql(requete_g_villes_grande(), cnx)
+
+    #creation du graphique
     plt.figure(figsize=(10, 6))
     plt.bar(
         df["nomVille"],
@@ -99,6 +119,8 @@ def graph_densite_ville(cnx):
     plt.ylabel("Densité")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
+
+    #sauvegarde du graphique dans le dossier graphiques
     plt.savefig("../../graphiques/top10_densite_ville.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("Graphique top10_densite_ville.png cree ")
