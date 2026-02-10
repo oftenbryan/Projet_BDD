@@ -11,7 +11,7 @@ def main():
     #création du connecteur
     cnx = connexionBDD()
 
-    #test pour éviter de recréer la base de donée à chaque exéctution du main
+    #test pour éviter de recréer la base de données à chaque exéctution du main
     firstCo = input("Voulez vous (re)créer la base de donée à partir des csv ? (y/n)")
     if (firstCo == 'y'):
         creer_bdd(cnx)
@@ -20,12 +20,12 @@ def main():
         villeSQL()
         recenserSQL()
 
-    #preparation du sql
+    #préparation du sql
     usePopulation(cnx)
     vues(cnx)
 
 
-    #requetes de la question 1) avec d'éventuels création de graphique
+    #requêtes de la question 1) avec d'éventuelles créations de graphiques
     print("=" * 60)
     print("a) Liste des populations en 2020")
     afficher_resultat(requeteSimple(cnx, requete_a()), n=20)
@@ -121,7 +121,11 @@ def main():
     print("2) Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020")
     afficher_resultat(requeteSimple(cnx, requete_2()))
 
-    #fin de la connexion à la base de donnée
+    print("\n" + "=" * 60)
+    print("3) Donner les villes qui ont vu le plus grand pourcentage de leur population décéder entre 2014 et 2020.")
+    afficher_resultat(requeteSimple(cnx, requete_3()))
+
+    #fin de la connexion à la base de données
     fermerCnx(cnx)
 
 

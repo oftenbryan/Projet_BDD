@@ -498,7 +498,20 @@ def requete_2():
 
 def requete_3():
     """Ville morte etc"""
-    return 0
+    return """
+    WITH deces AS (
+		    SELECT vs.idVille, vs.nomVille, rcs.nbDeces
+		    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2020
+	    ),
+        pop2014 AS (
+		    SELECT vs.idVille, vs.nomVille, rcs.population population
+            FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille AND rcs.annee = 2014
+	    )
+
+    SELECT (d.nbDeces / p14.population) ratioDeces, d.nomVille
+    FROM deces d JOIN pop2014 p14 ON d.idVille = p14.idVille
+    ORDER BY ratioDeces DESC LIMIT 10
+    """
 
 
 def requete_4():
