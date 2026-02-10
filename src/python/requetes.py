@@ -253,7 +253,7 @@ def requete_f_naissance(cnx):
     SELECT 
 	vs.nomVille, 
         SUM(rcs.nbNaissances) as totalNaissances
-    FROM recenser rcs 
+    FROM Recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
     GROUP BY vs.idVille, vs.nomVille
     ORDER BY totalNaissances DESC LIMIT 10
@@ -270,7 +270,7 @@ def requete_f_deces(cnx):
     SELECT 
 	vs.nomVille, 
         SUM(rcs.nbDeces) as totalDeces
-    FROM recenser rcs 
+    FROM Recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
     GROUP BY vs.idVille, vs.nomVille
     ORDER BY totalDeces DESC LIMIT 10
