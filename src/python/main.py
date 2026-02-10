@@ -6,6 +6,8 @@ from requetes import (
     creer_bdd,
     usePopulation,
     vues,
+    requeteSimple,
+    afficher_resultat,
     requete_a,
     requete_b,
     requete_c_departement,
@@ -14,38 +16,28 @@ from requetes import (
     requete_e_villes,
     requete_e_departements,
     requete_e_region,
-    requete_f,
-    requete_g,
-    requete_h,
-    requete_i,
 )
+from graphique import graph_evolution_france
 
 
 def main():
-    # Connexion a MySQL
     cnx = connexionBDD()
-
-    # Creation de la base de donnees et des tables
     creer_bdd(cnx)
     regionSQL()
     departementSQL()
     villeSQL()
     recenserSQL()
-
-    # Selection de la base de donnees
     usePopulation(cnx)
-
-    # Creation des vues
     vues(cnx)
 
-    # Appel des requetes
     print("=" * 60)
-    print("a) Liste des populations en 2020 (ville, departement, region)")
+    print("a) Liste des populations en 2020")
     requete_a(cnx)
 
     print("\n" + "=" * 60)
-    print("b) Evolution de la population francaise (1968-2020)")
-    requete_b(cnx)
+    print("b) Evolution population (1968-2020)")
+    afficher_resultat(requeteSimple(cnx, requete_b()))
+    graph_evolution_france(cnx)
 
     print("\n" + "=" * 60)
     print("c) Populations 2020 par departement")
@@ -56,34 +48,17 @@ def main():
     requete_c_region(cnx)
 
     print("\n" + "=" * 60)
-    print("d) Population de Paris (ville + arrondissements)")
+    print("d) Population de Paris")
     requete_d_paris(cnx)
 
     print("\n" + "=" * 60)
-    print("e) Top 10 des villes ayant le plus grandi (1968-2020)")
+    print("e) Top 10 villes croissance")
     requete_e_villes(cnx)
 
     print("\n" + "=" * 60)
-    print("e) Top 10 des departements ayant le plus grandi (1968-2020)")
+    print("e) Top 10 departements croissance")
     requete_e_departements(cnx)
 
-    print("\n" + "=" * 60)
-    print("f) Top 10 villes/departements naissances/deces (TODO)")
-    requete_f(cnx)
-
-    print("\n" + "=" * 60)
-    print("g) Densite de population (TODO)")
-    requete_g(cnx)
-
-    print("\n" + "=" * 60)
-    print("h) Comparaison 2020 naissances/deces/mouvements (TODO)")
-    requete_h(cnx)
-
-    print("\n" + "=" * 60)
-    print("i) Comparaison par recensement France (TODO)")
-    requete_i(cnx)
-
-    # Fermeture de la connexion
     fermerCnx(cnx)
 
 

@@ -12,6 +12,17 @@ def requeteSimple(cnx, requete):
         print(err)
 
 
+def afficher_resultat(resultat, n=None):
+    """Affiche les resultats d'une requete"""
+    if resultat:
+        if n:
+            for row in resultat[:n]:
+                print(row)
+        else:
+            for row in resultat:
+                print(row)
+
+
 def creer_bdd(cnx):
     requetes = [
         "DROP DATABASE IF EXISTS Population",
@@ -117,17 +128,14 @@ def requete_a(cnx):
             print(row)
 
 
-def requete_b(cnx):
+def requete_b(cnx=None):
     """b) Evolution de la population francaise de 1968 a 2020."""
-    requete = """
+    return """
     SELECT rcs.annee, SUM(rcs.population) AS populationFrance
-    FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    FROM recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
     GROUP BY rcs.annee
+    ORDER BY rcs.annee
     """
-    resultat = requeteSimple(cnx, requete)
-    if resultat:
-        for row in resultat:
-            print(row)
 
 
 def requete_c_departement(cnx):
