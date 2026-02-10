@@ -84,11 +84,11 @@ def usePopulation(cnx):
 
 
 def vues(cnx):
-    # Supprime les vues si elles existent deja
+    #supprime les vues si elles existent deja
     requeteSimple(cnx, "DROP VIEW IF EXISTS villeSeule")
     requeteSimple(cnx, "DROP VIEW IF EXISTS arrondissement")
 
-    # Cree les vues pour separer villes et arrondissements
+    #cree les vues pour separer villes et arrondissements
     requetes = [
         """
         CREATE VIEW villeSeule AS (
@@ -424,3 +424,45 @@ def requete_i():
     GROUP BY rcs.annee
     ORDER BY rcs.annee
     """
+
+def requete_1():
+    """ Donner le nombre de villes en Normandie"""
+    return """
+    SELECT COUNT(*) AS nbVille
+    FROM villeSeule vs
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+        JOIN Region reg ON d.idRegion = reg.idRegion
+    WHERE LOWER(reg.nomRegion) = "normandie"
+    """
+
+
+def requete_2():
+    """Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020"""
+    return """
+    SELECT vs.nomVille, rcs.population
+    FROM villeSeule vs
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+        JOIN Recenser rcs ON rcs.idVille = vs.idVille AND rcs.annee = 2020
+    WHERE LOWER(d.nomDepartement) = "creuse"
+        AND rcs.population > (
+            SELECT AVG(rcs.population)
+            FROM Recenser rcs
+            WHERE rcs.annee = 2020
+            )
+    ORDER BY rcs.population DESC
+    """
+
+
+def requete_3():
+    """Ville morte etc"""
+    return 0
+
+
+def requete_4():
+    return 0
+
+
+def requete_5():
+    return 0
+
+

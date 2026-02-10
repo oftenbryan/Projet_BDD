@@ -27,6 +27,11 @@ from requetes import (
     requete_g_departements_petite,
     requete_h,
     requete_i,
+    requete_1,
+    requete_2,
+    requete_3,
+    requete_4,
+    requete_5
 )
 from graphique import (
     graph_evolution_france,
@@ -137,6 +142,14 @@ def main():
     print("i) Comparaison France par recensement")
     afficher_resultat(requeteSimple(cnx, requete_i()))
 
+    #requetes de la question 2) avec d'éventuels création de graphique
+    print("\n" + "=" * 60)
+    print("1) Donner le nombre de villes en Normandie")
+    afficher_resultat(requeteSimple(cnx, requete_1()))
+
+    print("\n" + "=" * 60)
+    print("2) Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020")
+    afficher_resultat(requeteSimple(cnx, requete_2()))
 
     #fin de la connexion à la base de donnée
     fermerCnx(cnx)
