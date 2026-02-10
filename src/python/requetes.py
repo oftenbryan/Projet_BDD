@@ -112,9 +112,9 @@ def vues(cnx):
 # ============================================================================
 
 
-def requete_a(cnx):
+def requete_a():
     """a) Liste des populations en 2020 avec le nom de ville, departement, region."""
-    requete = """
+    return """
     SELECT rcs.population, vs.nomVille, d.nomDepartement, reg.nomRegion
     FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
                       JOIN Departement d ON vs.idDepartement = d.idDepartement
@@ -122,13 +122,9 @@ def requete_a(cnx):
     WHERE rcs.annee = 2020
     ORDER BY population DESC
     """
-    resultat = requeteSimple(cnx, requete)
-    if resultat:
-        for row in resultat[:20]:
-            print(row)
 
 
-def requete_b(cnx=None):
+def requete_b():
     """b) Evolution de la population francaise de 1968 a 2020."""
     return """
     SELECT rcs.annee, SUM(rcs.population) AS populationFrance
@@ -138,9 +134,9 @@ def requete_b(cnx=None):
     """
 
 
-def requete_c_departement(cnx):
+def requete_c_departement():
     """c) Liste des populations en 2020 par departement."""
-    requete = """
+    return """
     SELECT d.idDepartement AS idDep, d.nomDepartement AS nomDep, SUM(rcs.population) AS populationDep
     FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
                       JOIN Departement d ON vs.idDepartement = d.idDepartement
@@ -148,13 +144,9 @@ def requete_c_departement(cnx):
     GROUP BY idDep, nomDep
     ORDER BY populationDep DESC
     """
-    resultat = requeteSimple(cnx, requete)
-    if resultat:
-        for row in resultat[:20]:
-            print(row)
 
 
-def requete_c_region(cnx=None):
+def requete_c_region():
     """c) Liste des populations en 2020 par region."""
     return """
     SELECT reg.idRegion AS idReg, reg.nomRegion AS nomReg, SUM(rcs.population) AS populationReg
@@ -167,34 +159,27 @@ def requete_c_region(cnx=None):
     """
 
 
-def requete_d_paris(cnx):
-    """d) Population de Paris (ville + arrondissements)."""
-    # Ville de Paris
-    print("\n--- Paris (ville) ---")
-    requete1 = """
+def requete_d_paris_ville():
+    """d) Population de Paris (ville)."""
+    return """
     SELECT SUM(rcs.population) AS populationParis
     FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
     WHERE annee = 2020 AND LOWER(vs.nomVille) LIKE 'paris'
     """
-    resultat = requeteSimple(cnx, requete1)
-    if resultat:
-        print(f"Population Paris: {resultat[0][0]}")
 
-    # Arrondissements de Paris
-    print("\n--- Paris (arrondissements) ---")
-    requete2 = """
+def requete_d_paris_arr():
+    """d) Population de Paris (arrondissements)."""
+    return """
     SELECT SUM(rcs.population) AS populationParisArr
     FROM Recenser rcs JOIN arrondissement a ON rcs.idVille = a.idVille
     WHERE annee = 2020 AND LOWER(a.nomVille) LIKE 'paris%'
     """
-    resultat = requeteSimple(cnx, requete2)
-    if resultat:
-        print(f"Population arrondissements: {resultat[0][0]}")
 
 
-def requete_e_villes(cnx):
+
+def requete_e_villes():
     """e) Top 10 des villes ayant le plus grandi de 1968 a 2020."""
-    requete = """
+    return """
     WITH population2020 AS (
         SELECT vs.idVille, vs.nomVille, rcs.population AS popVille
         FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
@@ -209,15 +194,11 @@ def requete_e_villes(cnx):
     FROM population2020 pop20 JOIN population1968 pop68 ON pop20.idVille = pop68.idVille
     ORDER BY croissanceVille DESC LIMIT 10
     """
-    resultat = requeteSimple(cnx, requete)
-    if resultat:
-        for row in resultat:
-            print(row)
 
 
-def requete_e_departements(cnx):
+def requete_e_departements():
     """e) Top 10 des departements ayant le plus grandi de 1968 a 2020."""
-    requete = """
+    return """
     WITH popDep2020 AS (
         SELECT d.idDepartement AS idDep, d.nomDepartement AS nomDep, SUM(rcs.population) AS popDep
         FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
@@ -236,15 +217,11 @@ def requete_e_departements(cnx):
     FROM popDep2020 d20 JOIN popDep1968 d68 ON d20.idDep = d68.idDep
     ORDER BY croissanceDep DESC LIMIT 10
     """
-    resultat = requeteSimple(cnx, requete)
-    if resultat:
-        for row in resultat:
-            print(row)
 
 
-def requete_e_region(cnx):
+def requete_e_region():
     """e) Top des regions par croissance (1968-2020) - TODO: probleme de resultat."""
-    requete = """
+    return """
     WITH popReg2020 AS (
         SELECT reg.idRegion, reg.nomRegion, SUM(rcs.population) AS popRegion
         FROM Recenser rcs JOIN villeSeule vs ON rcs.idVille = vs.idVille
@@ -267,10 +244,6 @@ def requete_e_region(cnx):
         ORDER BY croissanceRegion DESC)
     SELECT SUM(cr.croissanceRegion) AS croissanceFr FROM croissanceReg cr
     """
-    resultat = requeteSimple(cnx, requete)
-    if resultat:
-        for row in resultat:
-            print(row)
 
 
 def requete_f_naissance(cnx):

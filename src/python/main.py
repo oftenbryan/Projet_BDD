@@ -12,7 +12,8 @@ from requetes import (
     requete_b,
     requete_c_departement,
     requete_c_region,
-    requete_d_paris,
+    requete_d_paris_ville,
+    requete_d_paris_arr,
     requete_e_villes,
     requete_e_departements,
     requete_e_region,
@@ -34,7 +35,7 @@ def main():
 
     print("=" * 60)
     print("a) Liste des populations en 2020")
-    requete_a(cnx)
+    afficher_resultat(requeteSimple(cnx, requete_a()),20)
 
     print("\n" + "=" * 60)
     print("b) Evolution population (1968-2020)")
@@ -43,7 +44,7 @@ def main():
 
     print("\n" + "=" * 60)
     print("c) Populations 2020 par departement")
-    requete_c_departement(cnx)
+    afficher_resultat(requeteSimple(cnx, requete_c_departement()),20)
 
     print("\n" + "=" * 60)
     print("c) Populations 2020 par region")
@@ -52,15 +53,22 @@ def main():
 
     print("\n" + "=" * 60)
     print("d) Population de Paris")
-    requete_d_paris(cnx)
+    print("\n--- Paris (ville) ---")
+    afficher_resultat(requeteSimple(cnx, requete_d_paris_ville()))
+    print("\n--- Paris (arrondissements) ---")
+    afficher_resultat(requeteSimple(cnx, requete_d_paris_arr()))
 
     print("\n" + "=" * 60)
-    print("e) Top 10 villes croissance")
-    requete_e_villes(cnx)
+    print("e) Top 10 villes par croissance")
+    afficher_resultat(requeteSimple(cnx, requete_e_villes()))
 
     print("\n" + "=" * 60)
-    print("e) Top 10 departements croissance")
-    requete_e_departements(cnx)
+    print("e) Top 10 departements par croissance")
+    afficher_resultat(requeteSimple(cnx, requete_e_departements()))
+
+    print("\n" + "=" * 60)
+    print("e) Top 10 région par croissance")
+    afficher_resultat(requeteSimple(cnx, requete_e_region()))
 
     print("\n" + "=" * 60)
     print("f) Top Liste des 10 villes / departements ou on nait / meurt le plus.")
