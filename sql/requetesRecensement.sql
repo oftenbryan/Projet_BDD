@@ -152,7 +152,21 @@ SELECT SUM(cr.croissanceRegion) croissanceFr FROM croissanceReg cr;
 
 -- f. Liste des 10 villes / départements où on nait / meurt le plus.
 
+SELECT 
+	vs.nomVille, 
+    SUM(rcs.nbDeces) as totalDeces
+FROM recenser rcs 
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+GROUP BY vs.idVille, vs.nomVille
+ORDER BY totalDeces DESC LIMIT 10;
 
+SELECT 
+	vs.nomVille, 
+    SUM(rcs.nbNaissances) as totalNaissances
+FROM recenser rcs 
+	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+GROUP BY vs.idVille, vs.nomVille
+ORDER BY totalNaissances DESC LIMIT 10;
 
 -- g. Liste des 10 villes / départements avec la plus grande/petite densité.
 
