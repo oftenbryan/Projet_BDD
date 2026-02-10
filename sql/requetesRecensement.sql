@@ -249,7 +249,7 @@ LIMIT 10;
 -- h. Comparaison pour 2020 des naissances / décès / mouvements de population par
 -- département / région (2 requêtes). (Mouvements =deltapop(1968/2020)-(nais-deces)).
 
-WITH stats1968 AS (
+WITH stats1968Dpt AS (
     SELECT d.idDepartement, d.nomDepartement,
            SUM(rcs.population) AS pop1968,
            SUM(rcs.nbNaissances) AS nais1968,
@@ -260,37 +260,81 @@ WITH stats1968 AS (
     WHERE rcs.annee = 1968
     GROUP BY d.idDepartement, d.nomDepartement
 ),
-stats2020 AS (
+stats2020Dpt AS (
     SELECT d.idDepartement, d.nomDepartement,
            SUM(rcs.population) AS pop2020,
            SUM(rcs.nbNaissances) AS nais2020,
            SUM(rcs.nbDeces) AS deces2020
     FROM Recenser rcs
-    JOIN villeSeule vs ON rcs.idVille = vs.idVille  
+    JOIN villeSeule vs ON rcs.idVille = vs.idVille
     JOIN Departement d ON vs.idDepartement = d.idDepartement
     WHERE rcs.annee = 2020
     GROUP BY d.idDepartement, d.nomDepartement
 )
-SELECT 
+SELECT
     s20.nomDepartement,
     s20.nais2020 AS naissances,
     s20.deces2020 AS deces,
     (s20.pop2020 - s68.pop1968) AS deltaPop,
     (s20.pop2020 - s68.pop1968) - (s20.nais2020 - s20.deces2020) AS mouvements
-FROM stats2020 s20
-JOIN stats1968 s68 ON s20.idDepartement = s68.idDepartement;
+FROM stats2020Dpt s20
+JOIN stats1968Dpt s68 ON s20.idDepartement = s68.idDepartement;
+
+
+-- h. Par région :
+WITH stats1968Reg AS (
+    SELECT reg.idRegion, reg.nomRegion,
+           SUM(rcs.population) AS pop1968,
+           SUM(rcs.nbNaissances) AS nais1968,
+           SUM(rcs.nbDeces) AS deces1968
+    FROM Recenser rcs
+    JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    JOIN Departement d ON vs.idDepartement = d.idDepartement
+    JOIN Region reg ON d.idRegion = reg.idRegion
+    WHERE rcs.annee = 1968
+    GROUP BY reg.idRegion, reg.nomRegion
+),
+stats2020Reg AS (
+    SELECT reg.idRegion, reg.nomRegion,
+           SUM(rcs.population) AS pop2020,
+           SUM(rcs.nbNaissances) AS nais2020,
+           SUM(rcs.nbDeces) AS deces2020
+    FROM Recenser rcs
+    JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    JOIN Departement d ON vs.idDepartement = d.idDepartement
+    JOIN Region reg ON d.idRegion = reg.idRegion
+    WHERE rcs.annee = 2020
+    GROUP BY reg.idRegion, reg.nomRegion
+)
+SELECT
+    s20.nomRegion,
+    s20.nais2020 AS naissances,
+    s20.deces2020 AS deces,
+    (s20.pop2020 - s68.pop1968) AS deltaPop,
+    (s20.pop2020 - s68.pop1968) - (s20.nais2020 - s20.deces2020) AS mouvements
+FROM stats2020Reg s20
+JOIN stats1968Reg s68 ON s20.idRegion = s68.idRegion;
 
 
 -- i. Comparaison par recensement des naissances / décès / mouvements de population de
--- la France.
+-- la France. (Mouvements = deltaPop - (naissances - décès))
 
+WITH stats AS (
+    SELECT 
+        rcs.annee,
+        SUM(rcs.population) AS population,
+        SUM(rcs.nbNaissances) AS naissances,
+        SUM(rcs.nbDeces) AS deces
+    FROM Recenser rcs
+    JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    GROUP BY rcs.annee
+)
 SELECT 
-    rcs.annee,
-    SUM(rcs.nbNaissances) AS totalNaissances,
-    SUM(rcs.nbDeces) AS totalDeces,
-    SUM(rcs.population) AS totalPopulation
-FROM Recenser rcs
-JOIN villeSeule vs ON rcs.idVille = vs.idVille
-GROUP BY rcs.annee
-ORDER BY rcs.annee;
+    annee,
+    naissances,
+    deces,
+    population - LAG(population) OVER (ORDER BY annee) AS deltaPop,
+    (population - LAG(population) OVER (ORDER BY annee)) - (naissances - deces) AS mouvements
+FROM stats
+ORDER BY annee;
 
