@@ -370,11 +370,6 @@ def requete_g_departements_petite():
     """
 
 
-# ============================================================================
-# REQUETES A FAIRE (TODO)
-# ============================================================================
-
-
 def requete_h():
     """h) Comparaison pour 2020 des naissances / deces / mouvements de population par departement."""
     return """

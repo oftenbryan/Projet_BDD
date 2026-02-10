@@ -1,13 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from connexion import connexionBDD
-from requetes import (
-    requete_b,
-    requete_c_region,
-    requete_e_villes,
-    requete_f_naissance_villes,
-    requete_g_villes_grande
-)
+import numpy as np
+from connexion import *
+from requetes import *
 
 
 
@@ -124,6 +119,46 @@ def graph_densite_ville(cnx):
     plt.savefig("../../graphiques/top10_densite_ville.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("Graphique top10_densite_ville.png cree ")
+
+def graph_pop_over_avg(cnx):
+    return 0
+
+def graph_mvt_pop(cnx):
+    #chargement du résultat de la requete dans un dataframe
+    df = pd.read_sql(requete_i(), cnx)
+
+    #preparation des labels
+    labels = df['annee'].astype(str)
+
+    #extraction des données
+    naissances = df['totalNaissances'].fillna(0) / 1000000
+    deces = df['totalDeces'].fillna(0) / 1000000
+    population = df['totalPopulation'] / 1000000
+
+    x = np.arange(len(labels))
+    width = 0.25
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # création des trois barres
+    rects1 = ax.bar(x - width, naissances, width, label='Naissances', color='#3498db')
+    rects2 = ax.bar(x, deces, width, label='Décès', color='#e74c3c')
+    rects3 = ax.bar(x + width, population, width, label='Population Totale', color='#2ecc71')
+
+    # configuration des axes
+    ax.set_ylabel("Popuplation (millions)")
+    ax.set_title("Evolution de population (1968-2020)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+
+    #sauvegarde du graphique dans le dossier graphiques
+    plt.savefig("../../graphiques/mvt_pop.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print("Graphique mvt_pop.png cree ")
+
 
 
 if __name__ == "__main__":

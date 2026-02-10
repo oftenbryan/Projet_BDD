@@ -1,45 +1,9 @@
 import datetime
 import mysql.connector
-from connexion import connexionBDD, selectDB, fermerCnx
-from import_data import regionSQL, departementSQL, villeSQL, recenserSQL
-from requetes import (
-    creer_bdd,
-    usePopulation,
-    vues,
-    requeteSimple,
-    afficher_resultat,
-    requete_a,
-    requete_b,
-    requete_c_departement,
-    requete_c_region,
-    requete_d_paris_ville,
-    requete_d_paris_arr,
-    requete_e_villes,
-    requete_e_departements,
-    requete_e_region,
-    requete_f_naissance_villes,
-    requete_f_deces_villes,
-    requete_f_naissance_departements,
-    requete_f_deces_departements,
-    requete_g_villes_grande,
-    requete_g_villes_petite,
-    requete_g_departements_grande,
-    requete_g_departements_petite,
-    requete_h,
-    requete_i,
-    requete_1,
-    requete_2,
-    requete_3,
-    requete_4,
-    requete_5
-)
-from graphique import (
-    graph_evolution_france,
-    graph_pop_region,
-    graph_croissance_ville,
-    graph_naissances_ville,
-    graph_densite_ville,
-)
+from connexion import *
+from import_data import *
+from requetes import *
+from graphique import *
 
 
 def main():
@@ -137,10 +101,12 @@ def main():
     print("\n" + "=" * 60)
     print("h) Comparaison 2020 - naissances, deces, mouvements par departement")
     afficher_resultat(requeteSimple(cnx, requete_h()))
+    graph_pop_over_avg(cnx)
 
     print("\n" + "=" * 60)
     print("i) Comparaison France par recensement")
     afficher_resultat(requeteSimple(cnx, requete_i()))
+    graph_mvt_pop(cnx)
 
     #requetes de la question 2) avec d'éventuels création de graphique
     print("\n" + "=" * 60)
