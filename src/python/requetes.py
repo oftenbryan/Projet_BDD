@@ -167,6 +167,7 @@ def requete_d_paris_ville():
     WHERE annee = 2020 AND LOWER(vs.nomVille) LIKE 'paris'
     """
 
+
 def requete_d_paris_arr():
     """d) Population de Paris (arrondissements)."""
     return """
@@ -174,7 +175,6 @@ def requete_d_paris_arr():
     FROM Recenser rcs JOIN arrondissement a ON rcs.idVille = a.idVille
     WHERE annee = 2020 AND LOWER(a.nomVille) LIKE 'paris%'
     """
-
 
 
 def requete_e_villes():
@@ -248,34 +248,39 @@ def requete_e_region():
 
 def requete_f_naissance(cnx):
     """f) Liste des 10 villes / departements ou on nait le plus."""
-    
+
     requeteN = """
     SELECT 
-	vs.nomVille, 
+	vs.nomVille, d.nomDepartement,
         SUM(rcs.nbNaissances) as totalNaissances
-    FROM Recenser rcs 
+<<<<<<< Updated upstream
+    FROM recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
     GROUP BY vs.idVille, vs.nomVille
     ORDER BY totalNaissances DESC LIMIT 10
     """
-    resultat = requeteSimple(cnx,requeteN)
+    resultat = requeteSimple(cnx, requeteN)
     if resultat:
         for row in resultat:
             print(row)
-            
+
+
 def requete_f_deces(cnx):
     """f) Liste des 10 villes / departements ou on meurt le plus."""
-    
+
     requeteD = """
     SELECT 
-	vs.nomVille, 
+	vs.nomVille, d.nomDepartement,
         SUM(rcs.nbDeces) as totalDeces
-    FROM Recenser rcs 
+<<<<<<< Updated upstream
+    FROM recenser rcs 
         JOIN villeSeule vs ON rcs.idVille = vs.idVille
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
     GROUP BY vs.idVille, vs.nomVille
     ORDER BY totalDeces DESC LIMIT 10
     """
-    resultat = requeteSimple(cnx,requeteD)
+    resultat = requeteSimple(cnx, requeteD)
     if resultat:
         for row in resultat:
             print(row)
@@ -284,6 +289,7 @@ def requete_f_deces(cnx):
 # ============================================================================
 # REQUETES A FAIRE (TODO)
 # ============================================================================
+
 
 def requete_g(cnx):
     """g) Liste des 10 villes / departements avec la plus grande/petite densite."""

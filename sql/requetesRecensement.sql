@@ -153,18 +153,20 @@ SELECT SUM(cr.croissanceRegion) croissanceFr FROM croissanceReg cr;
 -- f. Liste des 10 villes / départements où on nait / meurt le plus.
 
 SELECT 
-	vs.nomVille, 
+	vs.nomVille, d.nomDepartement,
     SUM(rcs.nbDeces) as totalDeces
 FROM recenser rcs 
 	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+    JOIN Departement d ON vs.idDepartement = d.idDepartement
 GROUP BY vs.idVille, vs.nomVille
 ORDER BY totalDeces DESC LIMIT 10;
 
 SELECT 
-	vs.nomVille, 
+	vs.nomVille, d.nomDepartement,
     SUM(rcs.nbNaissances) as totalNaissances
 FROM recenser rcs 
 	JOIN villeSeule vs ON rcs.idVille = vs.idVille
+	JOIN Departement d ON vs.idDepartement = d.idDepartement
 GROUP BY vs.idVille, vs.nomVille
 ORDER BY totalNaissances DESC LIMIT 10;
 

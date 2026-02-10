@@ -71,11 +71,11 @@ def main():
     afficher_resultat(requeteSimple(cnx, requete_e_region()))
 
     print("\n" + "=" * 60)
-    print("f) Top Liste des 10 villes / departements ou on nait / meurt le plus.")
+    print("f) Top Liste des 10 villes / departements ou on nait le plus.")
     requete_f_naissance(cnx)
     
     print("\n" + "=" * 60)
-    print("f) Top Liste des 10 villes / departements ou on nait / meurt le plus.")
+    print("f) Top Liste des 10 villes / departements ou on meurt le plus.")
     requete_f_deces(cnx)
     
     fermerCnx(cnx)
