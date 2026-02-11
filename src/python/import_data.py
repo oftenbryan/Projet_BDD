@@ -55,29 +55,30 @@ def departementSQL():
 
 #création d'une fonction qui transforme le codeGeo en idDepartement
 #cette fonction sera utilisée avec la fonction apply de pandas dans la fonction villeSQL
+
+codeToDepDict = {
+    "971" : 96,
+    "972" : 97,
+    "973" : 98,
+    "974" : 99,
+    "976" : 100,
+    "2A" : 0,
+    "2B" : 20
+}
+
 def codeToDep(df):
     df = str(df)
-    if (len(df) == 4):
+
+    if len(df) == 4:
         return int(df[0])
-    elif df[:2] in ['97']:
-        if df[:3] in ['971']:
-            return 96
-        elif df[:3] in ['972']:
-            return 97
-        elif df[:3] in ['973']:
-            return 98
-        elif df[:3] in ['974']:
-            return 99
-        elif df[:3] in ['976']:
-            return 100
-        else:
-            print(df)
-    elif df[:2] in ['2A']:
-        return 0
-    elif df[:2] in ['2B']:
-        return 20
-    else:
-        return int(df[:2])
+
+    for k in (df[:3], df[:2]):
+        try:
+            return codeToDepDict[k]
+        except KeyError:
+            pass
+
+    return int(df[:2])
 
 def villeSQL():
     #chargement du csv dans un dataframe
