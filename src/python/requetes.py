@@ -222,7 +222,7 @@ def requete_e_departements():
 
 
 def requete_e_region():
-    """e) Top des regions par croissance (1968-2020) - TODO: probleme de resultat."""
+    """e) Top des regions par croissance (1968-2020)"""
     return """
     WITH popReg2020 AS (
         SELECT reg.idRegion, reg.nomRegion, SUM(rcs.population) AS popRegion
@@ -239,12 +239,10 @@ def requete_e_region():
                           JOIN Region reg ON d.idRegion = reg.idRegion
         WHERE rcs.annee = 1968
         GROUP BY idRegion, nomRegion
-    ),
-    croissanceReg AS (
-        SELECT r20.nomRegion, (r20.popRegion - r68.popRegion) AS croissanceRegion
-        FROM popReg2020 r20 JOIN popReg1968 r68 ON r20.idRegion = r68.idRegion
-        ORDER BY croissanceRegion DESC)
-    SELECT SUM(cr.croissanceRegion) AS croissanceFr FROM croissanceReg cr
+    )
+    SELECT r20.nomRegion, (r20.popRegion - r68.popRegion) AS croissanceRegion
+    FROM popReg2020 r20 JOIN popReg1968 r68 ON r20.idRegion = r68.idRegion
+    ORDER BY croissanceRegion DESC LIMIT 10
     """
 
 
@@ -469,7 +467,7 @@ def requete_i():
 
 
 def requete_1():
-    """Donner le nombre de villes en Normandie"""
+    """1) Donner le nombre de villes en Normandie"""
     return """
     SELECT COUNT(*) AS nbVille
     FROM villeSeule vs
@@ -480,7 +478,7 @@ def requete_1():
 
 
 def requete_2():
-    """Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020"""
+    """2) Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020"""
     return """
     SELECT vs.nomVille, rcs.population
     FROM villeSeule vs
@@ -497,7 +495,7 @@ def requete_2():
 
 
 def requete_3():
-    """Ville morte etc"""
+    """3) Donner les 10 villes qui ont vu le plus grand pourcentage de décès par rapport à leur population entre 2014 et 2020."""
     return """
     WITH deces AS (
 		    SELECT vs.idVille, vs.nomVille, rcs.nbDeces

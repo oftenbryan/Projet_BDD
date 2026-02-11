@@ -100,7 +100,7 @@ def main():
 
     print("\n" + "=" * 60)
     print("h) Comparaison 2020 - naissances, deces, mouvements par departement")
-    afficher_resultat(requeteSimple(cnx, requete_h_departement()))
+    afficher_resultat(requeteSimple(cnx, requete_h_departement()), 20)
 
     print("\n" + "=" * 60)
     print("h) Comparaison 2020 - naissances, deces, mouvements par region")
@@ -122,7 +122,7 @@ def main():
     afficher_resultat(requeteSimple(cnx, requete_2()))
 
     print("\n" + "=" * 60)
-    print("3) Donner les villes qui ont vu le plus grand pourcentage de leur population décéder entre 2014 et 2020.")
+    print("3) Donner les 10 villes qui ont vu le plus grand pourcentage de décès par rapport à leur population entre 2014 et 2020.")
     afficher_resultat(requeteSimple(cnx, requete_3()))
 
     #fin de la connexion à la base de données

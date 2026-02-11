@@ -139,16 +139,11 @@ WITH popReg2020 AS (
                           JOIN Region reg ON d.idRegion = reg.idRegion
         WHERE rcs.annee = 1968
         GROUP BY idRegion, nomRegion
-        ),
-	croissanceReg AS (
+        )
 
 SELECT r20.nomRegion, (r20.popRegion - r68.popRegion) croissanceRegion
 FROM popReg2020 r20 JOIN popReg1968 r68 ON r20.idRegion = r68.idRegion
-ORDER BY croissanceRegion DESC) -- LIMIT 10
-
-SELECT SUM(cr.croissanceRegion) croissanceFr FROM croissanceReg cr;
--- Note pour reprendre : j'obtiens 16 364 042 ici, alors que par Wiki je trouve 17 718 778. ça fait quand même une diff de 1,5 million d'habitants, wtf.
--- TODO : La différence de valeur est vraiment importante. À réétudier.
+ORDER BY croissanceRegion DESC LIMIT 10;
 
 -- f. Liste des 10 villes / départements où on nait / meurt le plus.
 
