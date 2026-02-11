@@ -476,9 +476,30 @@ def requete_1():
     WHERE LOWER(reg.nomRegion) = "normandie"
     """
 
-
 def requete_2():
-    """2) Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020"""
+    """2) Nombre de villes par région"""
+    return """
+    SELECT reg.idRegion, reg.nomRegion, COUNT(DISTINCT vs.idVille) nbVilles
+    FROM villeSeule vs JOIN Departement d ON vs.idDepartement = d.idDepartement
+				JOIN Region reg ON d.idRegion = reg.idRegion
+    GROUP BY reg.idRegion, reg.nomRegion
+    ORDER BY nbVilles DESC
+    """
+
+def requete_3():
+    """3) TOP 10 Villes DOM-TOM par population 1990"""
+    return """
+    SELECT vs.nomVille, rcs.population
+    FROM villeSeule vs
+    JOIN Departement d ON vs.idDepartement = d.idDepartement
+    JOIN Recenser rcs ON vs.idVille = rcs.idVille AND rcs.annee = 1990
+    WHERE d.numeroDepartement LIKE '97%'
+    ORDER BY rcs.population DESC
+    LIMIT 10
+    """
+
+def requete_4():
+    """4) Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020"""
     return """
     SELECT vs.nomVille, rcs.population
     FROM villeSeule vs
@@ -493,9 +514,8 @@ def requete_2():
     ORDER BY rcs.population DESC
     """
 
-
-def requete_3():
-    """3) Donner les 10 villes qui ont vu le plus grand pourcentage de décès par rapport à leur population entre 2014 et 2020."""
+def requete_5():
+    """5) Donner les 10 villes qui ont vu le plus grand pourcentage de décès par rapport à leur population entre 2014 et 2020."""
     return """
     WITH deces AS (
 		    SELECT vs.idVille, vs.nomVille, rcs.nbDeces
@@ -510,20 +530,3 @@ def requete_3():
     FROM deces d JOIN pop2014 p14 ON d.idVille = p14.idVille
     ORDER BY ratioDeces DESC LIMIT 10
     """
-
-
-def requete_4():
-    """TOP 10 Villes DOM-TOM par population 1990"""
-    return """
-    SELECT vs.nomVille, rcs.population
-    FROM villeSeule vs
-    JOIN Departement d ON vs.idDepartement = d.idDepartement
-    JOIN Recenser rcs ON vs.idVille = rcs.idVille AND rcs.annee = 1990
-    WHERE d.numeroDepartement LIKE '97%'
-    ORDER BY rcs.population DESC
-    LIMIT 10
-    """
-
-
-def requete_5():
-    return 0

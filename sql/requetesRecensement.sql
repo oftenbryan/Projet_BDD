@@ -334,7 +334,53 @@ FROM stats
 ORDER BY annee;
 
 
--- 3.
+-- REQUETES INVENTEES
+
+-- 1. Donner le nombre de villes en Normandie
+
+SELECT COUNT(*) AS nbVille
+FROM villeSeule vs
+	JOIN Departement d ON vs.idDepartement = d.idDepartement
+	JOIN Region reg ON d.idRegion = reg.idRegion
+WHERE LOWER(reg.nomRegion) = "normandie";
+
+
+-- 2. Nombre de villes par région
+
+SELECT reg.idRegion, reg.nomRegion, COUNT(DISTINCT vs.idVille) nbVilles
+FROM villeSeule vs JOIN Departement d ON vs.idDepartement = d.idDepartement
+				   JOIN Region reg ON d.idRegion = reg.idRegion
+GROUP BY reg.idRegion, reg.nomRegion
+ORDER BY nbVilles DESC;
+
+
+-- 3. TOP 10 Villes DOM-TOM par population 1990
+
+SELECT vs.nomVille, rcs.population
+FROM villeSeule vs
+JOIN Departement d ON vs.idDepartement = d.idDepartement
+JOIN Recenser rcs ON vs.idVille = rcs.idVille AND rcs.annee = 1990
+WHERE d.numeroDepartement LIKE '97%'
+ORDER BY rcs.population DESC
+LIMIT 10;
+
+
+-- 4. Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020
+
+SELECT vs.nomVille, rcs.population
+    FROM villeSeule vs
+        JOIN Departement d ON vs.idDepartement = d.idDepartement
+        JOIN Recenser rcs ON rcs.idVille = vs.idVille AND rcs.annee = 2020
+    WHERE LOWER(d.nomDepartement) = "creuse"
+        AND rcs.population > (
+            SELECT AVG(rcs.population)
+            FROM Recenser rcs
+            WHERE rcs.annee = 2020
+            )
+    ORDER BY rcs.population DESC;
+
+	
+-- 5. Donner les 10 villes qui ont vu le plus grand pourcentage de décès par rapport à leur population entre 2014 et 2020.
 
 WITH deces AS (
 		SELECT vs.idVille, vs.nomVille, rcs.nbDeces
@@ -348,17 +394,3 @@ WITH deces AS (
 SELECT (d.nbDeces / p14.population) ratioDeces, d.nomVille
 FROM deces d JOIN pop2014 p14 ON d.idVille = p14.idVille
 ORDER BY ratioDeces DESC LIMIT 10;
-
-
--- 4. TOP 10 Villes DOM-TOM par population 1990
-
-SELECT vs.nomVille, rcs.population
-FROM villeSeule vs
-JOIN Departement d ON vs.idDepartement = d.idDepartement
-JOIN Recenser rcs ON vs.idVille = rcs.idVille AND rcs.annee = 1990
-WHERE d.numeroDepartement LIKE '97%'
-ORDER BY rcs.population DESC
-LIMIT 10;
-
-
--- 5.

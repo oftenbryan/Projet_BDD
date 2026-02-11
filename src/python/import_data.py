@@ -39,7 +39,7 @@ def departementSQL():
         'idRegion' : popDep['codeRegion']
     })
 
-    #gestion de la spécificité de la corse
+    #gestion de la spécificité de la Corse
     ligneA = dfDepartement.iloc[28]
     ligneB = dfDepartement.iloc[29]
     dfDepartement1 = dfDepartement.drop([28,29])
@@ -54,7 +54,7 @@ def departementSQL():
 
 
 #création d'une fonction qui transforme le codeGeo en idDepartement
-#cette fonction sera utilisé avec la fonction apply de pandas dans la fonction villeSQL
+#cette fonction sera utilisée avec la fonction apply de pandas dans la fonction villeSQL
 def codeToDep(df):
     df = str(df)
     if (len(df) == 4):

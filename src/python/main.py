@@ -118,12 +118,20 @@ def main():
     afficher_resultat(requeteSimple(cnx, requete_1()))
 
     print("\n" + "=" * 60)
-    print("2) Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020")
+    print("2) Nombre de villes par région")
     afficher_resultat(requeteSimple(cnx, requete_2()))
 
     print("\n" + "=" * 60)
-    print("3) Donner les 10 villes qui ont vu le plus grand pourcentage de décès par rapport à leur population entre 2014 et 2020.")
+    print("3) TOP 10 Villes DOM-TOM par population 1990")
     afficher_resultat(requeteSimple(cnx, requete_3()))
+
+    print("\n" + "=" * 60)
+    print("4) Donner les villes de la Creuse qui sont plus peuplées que la moyenne des communes françaises en 2020")
+    afficher_resultat(requeteSimple(cnx, requete_4()))
+
+    print("\n" + "=" * 60)
+    print("5) Donner les 10 villes qui ont vu le plus grand pourcentage de décès par rapport à leur population entre 2014 et 2020.")
+    afficher_resultat(requeteSimple(cnx, requete_5()))
 
     #fin de la connexion à la base de données
     fermerCnx(cnx)
