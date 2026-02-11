@@ -513,7 +513,16 @@ def requete_3():
 
 
 def requete_4():
-    return 0
+    """TOP 10 Villes DOM-TOM par population 1990"""
+    return """
+    SELECT vs.nomVille, rcs.population
+    FROM villeSeule vs
+    JOIN Departement d ON vs.idDepartement = d.idDepartement
+    JOIN Recenser rcs ON vs.idVille = rcs.idVille AND rcs.annee = 1990
+    WHERE d.numeroDepartement LIKE '97%'
+    ORDER BY rcs.population DESC
+    LIMIT 10
+    """
 
 
 def requete_5():

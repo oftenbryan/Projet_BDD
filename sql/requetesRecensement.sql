@@ -350,9 +350,15 @@ FROM deces d JOIN pop2014 p14 ON d.idVille = p14.idVille
 ORDER BY ratioDeces DESC LIMIT 10;
 
 
--- 4.
+-- 4. TOP 10 Villes DOM-TOM par population 1990
 
-
+SELECT vs.nomVille, rcs.population
+FROM villeSeule vs
+JOIN Departement d ON vs.idDepartement = d.idDepartement
+JOIN Recenser rcs ON vs.idVille = rcs.idVille AND rcs.annee = 1990
+WHERE d.numeroDepartement LIKE '97%'
+ORDER BY rcs.population DESC
+LIMIT 10;
 
 
 -- 5.
