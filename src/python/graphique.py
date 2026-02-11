@@ -157,9 +157,6 @@ def graph_mvt_pop(cnx):
     plt.close()
     print("Graphique mvt_pop.png cree ")
 
-def graph_pop_over_avg(cnx):
-    return 0
-
 
 
 if __name__ == "__main__":

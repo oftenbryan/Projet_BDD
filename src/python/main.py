@@ -105,12 +105,11 @@ def main():
     print("\n" + "=" * 60)
     print("h) Comparaison 2020 - naissances, deces, mouvements par region")
     afficher_resultat(requeteSimple(cnx, requete_h_region()))
-    graph_pop_over_avg(cnx)
 
     print("\n" + "=" * 60)
     print("i) Comparaison France par recensement")
     afficher_resultat(requeteSimple(cnx, requete_i()))
-    #graph_mvt_pop(cnx)
+    graph_mvt_pop(cnx)
 
     #requetes de la question 2) avec d'éventuelles créations de graphiques
     print("\n" + "=" * 60)
