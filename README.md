@@ -48,7 +48,7 @@ Projet_PGA/
 ├── src/python/
 │   ├── main.py              # Script principal (point d'entrée)
 │   ├── connexion.py         # Gestion connexion MySQL
-│   ├── creationBDD.py       # Création BDD + import CSV
+│   ├── import_data.py       # Création BDD + import CSV
 │   ├── requetes.py          # 19 fonctions SQL
 │   └── graphique.py         # Génération graphiques
 ├── sql/
